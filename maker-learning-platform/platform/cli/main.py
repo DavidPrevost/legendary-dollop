@@ -11,8 +11,11 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 from rich.tree import Tree
+from rich.prompt import Prompt, Confirm
 
 from core.capability_checker import CapabilityChecker
+from core.progress_tracker.tracker import ProgressTracker
+from core.progress_tracker.assessments import PlacementAssessment
 
 console = Console()
 
@@ -185,20 +188,153 @@ def status():
     """
     console.print("\n[bold blue]Your Learning Progress[/bold blue]\n")
 
-    # Placeholder progress display
-    progress_table = Table(show_header=True, header_style="bold")
-    progress_table.add_column("Skill", style="cyan")
-    progress_table.add_column("Track")
-    progress_table.add_column("Level")
-    progress_table.add_column("Progress")
+    tracker = ProgressTracker()
+    summary = tracker.get_summary()
+    subjects = tracker.get_subject_list()
 
-    # Sample data (will be replaced with actual tracking)
-    progress_table.add_row("Python", "Hobbyist", "Tinkerer 1.0", "[dim]Not started[/dim]")
-    progress_table.add_row("Bash", "Hobbyist", "Tinkerer 1.0", "[dim]Not started[/dim]")
-    progress_table.add_row("HTML/CSS", "Hobbyist", "Tinkerer 1.0", "[dim]Not started[/dim]")
+    # Overall summary
+    summary_table = Table(show_header=False, box=None, padding=(0, 2))
+    summary_table.add_column("Metric", style="cyan")
+    summary_table.add_column("Value")
+    summary_table.add_row("Subjects Started", str(summary["subjects_started"]))
+    summary_table.add_row("Projects Completed", str(summary["total_projects_completed"]))
+    summary_table.add_row("Concepts Learned", str(summary["total_concepts_learned"]))
+    summary_table.add_row("Total Time", f"{summary['total_time_hours']} hours")
 
-    console.print(progress_table)
+    console.print(Panel(summary_table, title="[bold]Overall Progress[/bold]", border_style="blue"))
+
+    # Subject progress
+    if subjects:
+        progress_table = Table(show_header=True, header_style="bold")
+        progress_table.add_column("Subject", style="cyan")
+        progress_table.add_column("Level")
+        progress_table.add_column("Projects")
+        progress_table.add_column("Concepts")
+
+        for subject in subjects:
+            progress_table.add_row(
+                subject["subject_id"],
+                f"{subject['current_level']} ({subject['level_name']})",
+                str(subject["projects_completed"]),
+                str(subject["concepts_completed"]),
+            )
+
+        console.print(Panel(progress_table, title="[bold]Subject Progress[/bold]", border_style="green"))
+    else:
+        console.print("\n[dim]No subjects started yet. Run 'maker subjects' to see available subjects.[/dim]")
+
     console.print("\n[dim]Complete projects to advance your skills![/dim]\n")
+
+
+@cli.command()
+def subjects():
+    """List available learning subjects.
+
+    Shows all subjects you can study, with their level counts
+    and estimated completion times.
+    """
+    console.print("\n[bold blue]Available Subjects[/bold blue]\n")
+
+    # Subject data (will be loaded from content files in future)
+    available_subjects = [
+        {
+            "id": "project-foundations",
+            "name": "Project Foundations",
+            "description": "Documentation and planning skills",
+            "levels": 5,
+            "hours": "15-23",
+            "status": "available",
+        },
+    ]
+
+    subjects_table = Table(show_header=True, header_style="bold")
+    subjects_table.add_column("Subject", style="cyan")
+    subjects_table.add_column("Description")
+    subjects_table.add_column("Levels")
+    subjects_table.add_column("Est. Hours")
+    subjects_table.add_column("Status")
+
+    for subject in available_subjects:
+        status_str = "[green]Available[/green]" if subject["status"] == "available" else "[dim]Coming Soon[/dim]"
+        subjects_table.add_row(
+            subject["name"],
+            subject["description"],
+            str(subject["levels"]),
+            subject["hours"],
+            status_str,
+        )
+
+    console.print(subjects_table)
+    console.print("\n[dim]Run 'maker assess project-foundations' to take a placement test.[/dim]\n")
+
+
+@cli.command()
+@click.argument("subject_id", required=False)
+def assess(subject_id):
+    """Take a placement assessment for a subject.
+
+    SUBJECT_ID: The subject to assess (e.g., project-foundations)
+    """
+    if not subject_id:
+        console.print("\n[yellow]Available assessments:[/yellow]\n")
+        console.print("  [cyan]project-foundations[/cyan] - Documentation and planning skills\n")
+        console.print("[dim]Usage: maker assess project-foundations[/dim]\n")
+        return
+
+    if subject_id != "project-foundations":
+        console.print(f"\n[red]Assessment not available for '{subject_id}'[/red]\n")
+        return
+
+    console.print("\n[bold blue]Project Foundations - Placement Assessment[/bold blue]\n")
+    console.print("Answer these questions to find your starting level.\n")
+
+    assessment = PlacementAssessment()
+    tracker = ProgressTracker()
+
+    # Level names for Project Foundations
+    level_names = {
+        0: "Curious",
+        1: "Explorer",
+        2: "Tinkerer",
+        3: "Builder",
+        4: "Maker",
+    }
+
+    # Start the subject
+    tracker.start_subject(subject_id, level_names)
+
+    correct = 0
+    total = len(assessment.questions)
+
+    for i, question in enumerate(assessment.questions, 1):
+        console.print(f"[bold]Question {i}/{total}[/bold]")
+        console.print(f"{question.text}\n")
+
+        for j, option in enumerate(question.options):
+            console.print(f"  {j + 1}. {option}")
+
+        while True:
+            answer = Prompt.ask("\nYour answer", choices=["1", "2", "3", "4"])
+            break
+
+        if int(answer) - 1 == question.correct_index:
+            correct += 1
+            console.print("[green]Correct![/green]\n")
+        else:
+            console.print(f"[red]Incorrect.[/red] {question.explanation}\n")
+
+    # Calculate level
+    result = assessment.calculate_level(correct, total)
+    tracker.record_assessment(subject_id, result.recommended_level, level_names)
+
+    console.print(Panel(
+        f"Score: {result.score}/{result.total} ({result.percentage}%)\n"
+        f"Recommended Level: [bold]{result.recommended_level}[/bold] ({level_names[result.recommended_level]})",
+        title="[bold]Assessment Complete[/bold]",
+        border_style="green",
+    ))
+
+    console.print(f"\n[dim]You can start at Level {result.recommended_level} or begin from Level 0 for a complete experience.[/dim]\n")
 
 
 def main():

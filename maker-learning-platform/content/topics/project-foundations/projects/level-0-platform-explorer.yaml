@@ -1,0 +1,147 @@
+project:
+  id: "project-foundations-platform-explorer"
+  name: "Platform Explorer"
+  subject_id: "project-foundations"
+  level: 0
+
+  description:
+    short: "A guided introduction to the Maker Learning Platform with goal-setting reflection."
+    full: |
+      This project introduces you to the Maker Learning Platform while helping you clarify
+      your learning goals. You'll explore every major feature of the platform, set up your
+      maker profile, and write a reflection document about why you want to learn to build
+      things. This serves as both platform tutorial and personal motivation touchstone.
+
+  outcome: "A configured maker profile and a personal reflection document on your learning goals"
+
+value:
+  life_improvement: |
+    You'll have a clear vision for your learning journey and know exactly how to use
+    the platform. The reflection document becomes something you can return to when you
+    need motivation or want to remember why you started.
+
+  learning_goals:
+    - Navigate all major platform features confidently
+    - Understand the platform's structure (Subjects, Levels, Projects, Bands)
+    - Articulate personal learning goals
+    - Practice basic documentation/writing skills
+
+  unlocks:
+    - Can confidently use the platform for all future subjects
+    - Personalized recommendations based on profile
+    - Clear goals to guide subject selection
+
+requirements:
+  primary:
+    subject_id: "project-foundations"
+    min_level: 0
+
+  integrations: []
+
+  recommended: []
+
+environment:
+  platforms:
+    windows: true
+    macos: true
+    linux: true
+
+  variants:
+    windows: null
+    macos: null
+    linux: null
+
+  software_required: []
+
+  hardware_required: []
+
+  hardware_optional: []
+
+estimates:
+  time: "1-2 hours"
+
+  difficulty:
+    overall: "beginner"
+    concepts: "easy"
+    implementation: "easy"
+    debugging: "minimal"
+
+safety:
+  legal_notes: null
+  security_notes: null
+  warnings: []
+
+structure:
+  files:
+    - path: "reflection.md"
+      purpose: "Your personal reflection on learning goals and motivations"
+
+  directories: []
+
+  final_structure: |
+    my-maker-journey/
+    └── reflection.md
+
+validation:
+  automated:
+    - check: "file_exists('reflection.md')"
+      error_message: "Reflection document not found"
+    - check: "word_count('reflection.md') >= 200"
+      error_message: "Reflection should be at least 200 words"
+    - check: "profile_complete()"
+      error_message: "Maker profile is not fully configured"
+    - check: "tour_checkpoints_complete()"
+      error_message: "Platform tour not completed"
+
+  manual:
+    - "Reflection addresses all four prompts (motivation, interests, specific problem, success definition)"
+    - "Profile interests align with stated goals"
+    - "Writing is genuine and thoughtful, not placeholder text"
+
+  definition_of_done: |
+    You have completed the platform tour, configured your maker profile with real
+    information, and written a heartfelt reflection that you could read in six months
+    and still feel motivated by.
+
+support:
+  pitfalls:
+    - issue: "Rushing through the tour without exploring"
+      solution: "Take time to click into subjects and read descriptions. This saves time later."
+    - issue: "Writing generic reflection"
+      solution: "Be specific. Name actual problems you want to solve, not vague 'learn to code' goals."
+    - issue: "Skipping capability detection"
+      solution: "Run it even if incomplete—it helps personalize your experience immediately."
+
+  hints:
+    - level: 1
+      hint: "For your reflection, start with a specific frustration you have with technology"
+    - level: 2
+      hint: "Think about tasks you do repeatedly that could be automated"
+    - level: 3
+      hint: "Your 'specific problem' could be: manual file organization, repetitive data entry, lack of personal dashboard, etc."
+
+extensions:
+  - name: "Hardware Inventory"
+    description: "Document all your maker hardware with photos and specs"
+    difficulty: "easy"
+    skills_practiced:
+      - "Documentation"
+      - "Markdown tables"
+
+  - name: "Learning Timeline"
+    description: "Create a 3-month learning plan based on your goals"
+    difficulty: "medium"
+    skills_practiced:
+      - "Planning"
+      - "Goal setting"
+
+content:
+  template_path: "/content/topics/project-foundations/projects/level-0-platform-explorer/"
+
+  resources:
+    - type: "tutorial"
+      title: "Platform Tour Guide"
+      location: "tutorials/platform-tour.md"
+    - type: "reference"
+      title: "Platform Feature Reference"
+      location: "reference/platform-features.md"

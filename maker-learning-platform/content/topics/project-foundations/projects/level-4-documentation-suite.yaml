@@ -1,0 +1,229 @@
+project:
+  id: "project-foundations-documentation-suite"
+  name: "Documentation Suite"
+  subject_id: "project-foundations"
+  level: 4
+
+  description:
+    short: "Create a professional-grade documentation package for a project."
+    full: |
+      Create a complete documentation set that would satisfy professional project standards.
+      This includes architecture documentation with diagrams, Architecture Decision Records
+      (ADRs), API documentation, configuration documentation, a properly formatted changelog,
+      and a reflection on your personal documentation workflow. This demonstrates mastery of
+      technical documentation.
+
+  outcome: "A complete professional documentation package demonstrating technical writing mastery"
+
+value:
+  life_improvement: |
+    You can now document projects at a professional level. This skill transfers directly
+    to work environments and makes your personal projects maintainable long-term. Good
+    documentation is the difference between a hobby project and a serious tool.
+
+  learning_goals:
+    - Create architecture documentation with diagrams
+    - Write Architecture Decision Records (ADRs)
+    - Document APIs clearly and completely
+    - Document configuration options
+    - Maintain changelogs with semantic versioning
+    - Reflect on and improve documentation workflow
+
+  unlocks:
+    - Professional-grade documentation skills
+    - Ready for team/enterprise environments
+    - Can contribute to open source documentation
+
+requirements:
+  primary:
+    subject_id: "project-foundations"
+    min_level: 4
+
+  integrations: []
+
+  recommended:
+    - subject_id: "project-foundations"
+      min_level: 3
+      reason: "Planning skills inform architecture decisions"
+    - subject_id: "project-foundations"
+      min_level: 2
+      reason: "Project structure needed for docs organization"
+
+environment:
+  platforms:
+    windows: true
+    macos: true
+    linux: true
+
+  variants:
+    windows: null
+    macos: null
+    linux: null
+
+  software_required:
+    - name: "Text editor"
+      install_notes: "Any editor works"
+
+  hardware_required: []
+
+  hardware_optional: []
+
+estimates:
+  time: "4-6 hours"
+
+  difficulty:
+    overall: "advanced"
+    concepts: "medium"
+    implementation: "hard"
+    debugging: "easy"
+
+safety:
+  legal_notes: null
+  security_notes: "Don't document real secrets or credentials in API docs"
+  warnings: []
+
+structure:
+  files:
+    - path: "docs/ARCHITECTURE.md"
+      purpose: "System architecture overview with diagrams"
+    - path: "docs/adr/ADR-001.md"
+      purpose: "First architecture decision record"
+    - path: "docs/adr/ADR-002.md"
+      purpose: "Second architecture decision record"
+    - path: "docs/API.md"
+      purpose: "API endpoint/function documentation"
+    - path: "docs/CONFIGURATION.md"
+      purpose: "Configuration options documentation"
+    - path: "CHANGELOG.md"
+      purpose: "Version history in Keep a Changelog format"
+    - path: "docs/WORKFLOW.md"
+      purpose: "Personal documentation workflow reflection"
+
+  directories:
+    - path: "docs/"
+      purpose: "All documentation"
+    - path: "docs/adr/"
+      purpose: "Architecture Decision Records"
+
+  final_structure: |
+    project-name/
+    ├── CHANGELOG.md
+    └── docs/
+        ├── ARCHITECTURE.md
+        ├── API.md
+        ├── CONFIGURATION.md
+        ├── WORKFLOW.md
+        └── adr/
+            ├── ADR-001.md
+            └── ADR-002.md
+
+validation:
+  automated:
+    - check: "file_exists('docs/ARCHITECTURE.md')"
+      error_message: "Architecture documentation not found"
+    - check: "file_exists('docs/adr/ADR-001.md')"
+      error_message: "ADR-001 not found"
+    - check: "file_exists('docs/adr/ADR-002.md')"
+      error_message: "ADR-002 not found"
+    - check: "file_exists('docs/API.md')"
+      error_message: "API documentation not found"
+    - check: "file_exists('docs/CONFIGURATION.md')"
+      error_message: "Configuration documentation not found"
+    - check: "file_exists('CHANGELOG.md')"
+      error_message: "CHANGELOG not found"
+    - check: "file_exists('docs/WORKFLOW.md')"
+      error_message: "Workflow reflection not found"
+    - check: "has_section('docs/ARCHITECTURE.md', 'diagram')"
+      error_message: "Architecture doc should include a diagram"
+    - check: "adr_format('docs/adr/ADR-001.md')"
+      error_message: "ADR-001 doesn't follow ADR format"
+    - check: "adr_format('docs/adr/ADR-002.md')"
+      error_message: "ADR-002 doesn't follow ADR format"
+    - check: "changelog_format('CHANGELOG.md')"
+      error_message: "CHANGELOG doesn't follow Keep a Changelog format"
+    - check: "count_endpoints('docs/API.md') >= 3"
+      error_message: "API docs should document at least 3 endpoints/functions"
+
+  manual:
+    - "Architecture includes context (what system interacts with)"
+    - "Architecture has component breakdown"
+    - "Diagram is clear and informative (ASCII or image)"
+    - "ADRs address real/significant decisions"
+    - "ADRs follow format: Context, Decision, Rationale, Consequences"
+    - "API docs include: signature, description, params, return, example, errors"
+    - "Configuration docs list all options with defaults"
+    - "Configuration distinguishes required vs optional"
+    - "CHANGELOG has [Unreleased] section"
+    - "CHANGELOG has at least one version (e.g., 0.1.0)"
+    - "Workflow reflection shows genuine self-awareness"
+
+  definition_of_done: |
+    The documentation package could be dropped into a professional project and meet
+    team standards. A new team member could understand the architecture, key decisions,
+    how to use the API, and how to configure the system without reading code.
+
+support:
+  pitfalls:
+    - issue: "Architecture diagram that's just boxes with no explanation"
+      solution: "Label what each component does. Show data flow with arrows. Add a legend if needed."
+    - issue: "ADRs for trivial decisions"
+      solution: "ADRs are for decisions with trade-offs. 'We use Python' is only an ADR if you considered alternatives."
+    - issue: "API docs without examples"
+      solution: "Every endpoint needs at least one example request/response. Show actual values."
+    - issue: "Incomplete configuration docs"
+      solution: "Document ALL options, including defaults. People shouldn't have to read code to configure."
+    - issue: "Changelog with poor categorization"
+      solution: "Use: Added (new), Changed (existing), Deprecated, Removed, Fixed, Security"
+
+  hints:
+    - level: 1
+      hint: "Use the project from Level 2 or 3—you already know it well"
+    - level: 2
+      hint: "For architecture diagram, start with ASCII art. You can upgrade to images later."
+    - level: 3
+      hint: "ADR topics: database choice, framework selection, authentication approach, deployment strategy"
+
+extensions:
+  - name: "Automated Doc Generation"
+    description: "Set up a tool like Sphinx or MkDocs to generate HTML docs"
+    difficulty: "hard"
+    skills_practiced:
+      - "Documentation tools"
+      - "Build systems"
+
+  - name: "OpenAPI Specification"
+    description: "Write API docs in OpenAPI/Swagger format"
+    difficulty: "hard"
+    skills_practiced:
+      - "API standards"
+      - "YAML/JSON"
+
+  - name: "Documentation Site"
+    description: "Deploy your docs to GitHub Pages or Read the Docs"
+    difficulty: "medium"
+    skills_practiced:
+      - "Static site deployment"
+      - "GitHub Pages"
+
+content:
+  template_path: "/content/topics/project-foundations/projects/level-4-documentation-suite/"
+
+  resources:
+    - type: "tutorial"
+      title: "Architecture Documentation Guide"
+      location: "tutorials/architecture-docs.md"
+    - type: "tutorial"
+      title: "ADR Writing Guide"
+      location: "tutorials/adr-guide.md"
+    - type: "tutorial"
+      title: "API Documentation Guide"
+      location: "tutorials/api-docs.md"
+    - type: "reference"
+      title: "ADR Template"
+      location: "reference/adr-template.md"
+    - type: "reference"
+      title: "Keep a Changelog"
+      location: "reference/changelog-format.md"
+    - type: "reference"
+      title: "Semantic Versioning"
+      location: "reference/semver.md"

@@ -1,0 +1,384 @@
+"""Assessment tools for the Maker Learning Platform.
+
+This module provides placement assessments that allow users to
+demonstrate existing knowledge and skip levels.
+"""
+
+import random
+from dataclasses import dataclass
+from typing import Optional
+
+
+@dataclass
+class Question:
+    """A single assessment question."""
+    id: str
+    text: str
+    options: list[str]
+    correct_index: int
+    level: int
+    concept: str
+    explanation: str
+
+
+@dataclass
+class AssessmentResult:
+    """Result of a completed assessment."""
+    total_questions: int
+    correct_answers: int
+    percentage: float
+    recommended_level: int
+    level_name: str
+    details: dict
+
+
+class PlacementAssessment:
+    """Placement assessment for Project Foundations subject."""
+
+    def __init__(self):
+        self.questions = self._load_questions()
+        self.level_names = {
+            0: "Curious",
+            1: "Explorer",
+            2: "Tinkerer",
+            3: "Builder",
+            4: "Maker",
+        }
+
+    def _load_questions(self) -> list[Question]:
+        """Load assessment questions for Project Foundations."""
+        return [
+            # Level 0 questions (Platform basics)
+            Question(
+                id="pf-0-1",
+                text="What is the difference between a 'Language' and a 'Topic' in this platform?",
+                options=[
+                    "Languages are harder than Topics",
+                    "Languages are programming languages, Topics are other technical knowledge",
+                    "Topics take longer to learn",
+                    "There is no difference",
+                ],
+                correct_index=1,
+                level=0,
+                concept="Languages vs Topics distinction",
+                explanation="Languages refer to programming/markup languages like Python or HTML, while Topics are other technical knowledge areas like Git or Networking."
+            ),
+            Question(
+                id="pf-0-2",
+                text="What is 'minimum viable documentation'?",
+                options=[
+                    "The longest possible documentation",
+                    "Documentation that only developers can read",
+                    "The essential docs needed to understand and use a project",
+                    "Documentation written in Markdown only",
+                ],
+                correct_index=2,
+                level=0,
+                concept="Minimum viable documentation",
+                explanation="Minimum viable documentation includes: what it does, how to run it, requirements, and configuration options."
+            ),
+
+            # Level 1 questions (Markdown)
+            Question(
+                id="pf-1-1",
+                text="Which Markdown syntax creates a code block with syntax highlighting for Python?",
+                options=[
+                    "```python",
+                    "[python]",
+                    "<code python>",
+                    "{{python}}",
+                ],
+                correct_index=0,
+                level=1,
+                concept="Syntax highlighting",
+                explanation="Use triple backticks followed by the language name: ```python"
+            ),
+            Question(
+                id="pf-1-2",
+                text="How do you create a task list item in GitHub-flavored Markdown?",
+                options=[
+                    "[ ] Task",
+                    "- [ ] Task",
+                    "* Task []",
+                    "<task> Task",
+                ],
+                correct_index=1,
+                level=1,
+                concept="Task lists",
+                explanation="Task lists use - [ ] for incomplete and - [x] for complete items."
+            ),
+            Question(
+                id="pf-1-3",
+                text="What is the correct Markdown for a table?",
+                options=[
+                    "| Col1 | Col2 |\\n|---|---|\\n| A | B |",
+                    "<table><tr><td>A</td></tr></table>",
+                    "[table: Col1, Col2]",
+                    "{{Col1, Col2}, {A, B}}",
+                ],
+                correct_index=0,
+                level=1,
+                concept="Tables",
+                explanation="Tables use pipes (|) to separate columns and hyphens (-) for the header separator."
+            ),
+
+            # Level 2 questions (README & Structure)
+            Question(
+                id="pf-2-1",
+                text="Which section should come first in a project README?",
+                options=[
+                    "Contributing guidelines",
+                    "License information",
+                    "Project title and description",
+                    "Changelog",
+                ],
+                correct_index=2,
+                level=2,
+                concept="README structure",
+                explanation="Start with the project name and a clear description of what it does and why."
+            ),
+            Question(
+                id="pf-2-2",
+                text="Where should configuration files typically be placed?",
+                options=[
+                    "In a config/ subdirectory",
+                    "At the project root",
+                    "In the docs/ directory",
+                    "In the src/ directory",
+                ],
+                correct_index=1,
+                level=2,
+                concept="Project structure",
+                explanation="Configuration files live at the project root for easy discovery."
+            ),
+            Question(
+                id="pf-2-3",
+                text="What does a .gitignore file do?",
+                options=[
+                    "Lists contributors to ignore",
+                    "Specifies files that Git should not track",
+                    "Ignores certain Git commands",
+                    "Hides the .git directory",
+                ],
+                correct_index=1,
+                level=2,
+                concept=".gitignore",
+                explanation=".gitignore tells Git which files/folders to exclude from version control."
+            ),
+
+            # Level 3 questions (Planning)
+            Question(
+                id="pf-3-1",
+                text="What does 'MoSCoW' stand for in prioritization?",
+                options=[
+                    "Most Optimal Solution, Correct Order, Winning",
+                    "Must have, Should have, Could have, Won't have",
+                    "Minimum Output, Standard Count, Optional Work",
+                    "Major, Secondary, Component, Worker",
+                ],
+                correct_index=1,
+                level=3,
+                concept="MoSCoW prioritization",
+                explanation="MoSCoW categorizes requirements: Must, Should, Could, Won't have."
+            ),
+            Question(
+                id="pf-3-2",
+                text="What is a 'walking skeleton' approach?",
+                options=[
+                    "Writing documentation first",
+                    "Building minimal end-to-end functionality first",
+                    "Creating a project outline",
+                    "Testing on Halloween",
+                ],
+                correct_index=1,
+                level=3,
+                concept="Walking skeleton",
+                explanation="A walking skeleton is a minimal implementation that connects all components end-to-end."
+            ),
+            Question(
+                id="pf-3-3",
+                text="What should user story acceptance criteria be?",
+                options=[
+                    "Vague and flexible",
+                    "As long as possible",
+                    "Testable and specific",
+                    "Written in code",
+                ],
+                correct_index=2,
+                level=3,
+                concept="Acceptance criteria",
+                explanation="Acceptance criteria must be specific and testable so you know when the story is done."
+            ),
+
+            # Level 4 questions (Technical Documentation)
+            Question(
+                id="pf-4-1",
+                text="What sections must an Architecture Decision Record (ADR) contain?",
+                options=[
+                    "Title, Author, Date",
+                    "Status, Context, Decision",
+                    "Summary, Details, References",
+                    "Problem, Solution, Result",
+                ],
+                correct_index=1,
+                level=4,
+                concept="ADR format",
+                explanation="ADRs must have: Status, Context, Decision. Rationale and Consequences are recommended."
+            ),
+            Question(
+                id="pf-4-2",
+                text="What does 'MAJOR' version bump mean in semantic versioning?",
+                options=[
+                    "Bug fixes only",
+                    "New features, backward compatible",
+                    "Breaking changes",
+                    "Documentation updates",
+                ],
+                correct_index=2,
+                level=4,
+                concept="Semantic versioning",
+                explanation="MAJOR version bumps indicate breaking, backward-incompatible changes."
+            ),
+            Question(
+                id="pf-4-3",
+                text="What's the main benefit of 'docs as code'?",
+                options=[
+                    "Docs load faster",
+                    "Docs are reviewed and versioned like code",
+                    "Docs can be written in any language",
+                    "Docs don't need updating",
+                ],
+                correct_index=1,
+                level=4,
+                concept="Documentation as code",
+                explanation="Treating docs as code means they're version controlled, reviewed in PRs, and kept with the codebase."
+            ),
+        ]
+
+    def get_assessment_questions(self, num_questions: int = 10) -> list[Question]:
+        """Get a randomized set of questions across all levels.
+
+        Args:
+            num_questions: Number of questions to include
+
+        Returns:
+            List of Question objects
+        """
+        # Ensure we have questions from each level
+        questions_by_level: dict[int, list[Question]] = {}
+        for q in self.questions:
+            if q.level not in questions_by_level:
+                questions_by_level[q.level] = []
+            questions_by_level[q.level].append(q)
+
+        selected = []
+
+        # Select roughly equal questions from each level
+        per_level = max(1, num_questions // len(questions_by_level))
+        for level in sorted(questions_by_level.keys()):
+            level_questions = questions_by_level[level]
+            count = min(per_level, len(level_questions))
+            selected.extend(random.sample(level_questions, count))
+
+        # Fill remaining slots randomly
+        while len(selected) < num_questions and len(selected) < len(self.questions):
+            remaining = [q for q in self.questions if q not in selected]
+            if remaining:
+                selected.append(random.choice(remaining))
+
+        random.shuffle(selected)
+        return selected[:num_questions]
+
+    def evaluate_assessment(
+        self, answers: dict[str, int]
+    ) -> AssessmentResult:
+        """Evaluate assessment answers and determine recommended level.
+
+        Args:
+            answers: Dict mapping question_id to selected option index
+
+        Returns:
+            AssessmentResult with score and recommended level
+        """
+        correct = 0
+        level_scores: dict[int, dict] = {
+            i: {"correct": 0, "total": 0} for i in range(5)
+        }
+
+        for question in self.questions:
+            if question.id in answers:
+                level_scores[question.level]["total"] += 1
+                if answers[question.id] == question.correct_index:
+                    correct += 1
+                    level_scores[question.level]["correct"] += 1
+
+        total = len(answers)
+        percentage = (correct / total * 100) if total > 0 else 0
+
+        # Determine recommended level based on performance
+        recommended_level = 0
+        for level in range(5):
+            scores = level_scores[level]
+            if scores["total"] > 0:
+                level_pct = scores["correct"] / scores["total"]
+                if level_pct >= 0.7:  # 70% threshold to pass a level
+                    recommended_level = level + 1
+                else:
+                    break
+
+        # Cap at max level
+        recommended_level = min(recommended_level, 4)
+
+        return AssessmentResult(
+            total_questions=total,
+            correct_answers=correct,
+            percentage=percentage,
+            recommended_level=recommended_level,
+            level_name=self.level_names[recommended_level],
+            details={
+                "level_scores": {
+                    self.level_names[k]: v for k, v in level_scores.items()
+                }
+            }
+        )
+
+
+def run_placement_assessment() -> AssessmentResult:
+    """Run an interactive placement assessment.
+
+    This is a simple implementation for CLI use.
+    """
+    assessment = PlacementAssessment()
+    questions = assessment.get_assessment_questions(10)
+
+    print("\n=== Project Foundations Placement Assessment ===\n")
+    print("Answer the following questions to determine your starting level.")
+    print("This should take about 5-10 minutes.\n")
+
+    answers = {}
+
+    for i, question in enumerate(questions, 1):
+        print(f"\nQuestion {i}/{len(questions)}")
+        print(f"{question.text}\n")
+
+        for j, option in enumerate(question.options):
+            print(f"  {j + 1}. {option}")
+
+        while True:
+            try:
+                choice = input("\nYour answer (1-4): ").strip()
+                choice_int = int(choice) - 1
+                if 0 <= choice_int <= 3:
+                    answers[question.id] = choice_int
+                    break
+                print("Please enter a number between 1 and 4.")
+            except ValueError:
+                print("Please enter a valid number.")
+
+    result = assessment.evaluate_assessment(answers)
+
+    print("\n=== Assessment Results ===\n")
+    print(f"Score: {result.correct_answers}/{result.total_questions} ({result.percentage:.0f}%)")
+    print(f"Recommended starting level: {result.level_name} (Level {result.recommended_level})")
+
+    return result
