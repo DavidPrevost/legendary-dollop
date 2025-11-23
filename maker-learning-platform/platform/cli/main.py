@@ -15,7 +15,7 @@ from rich.prompt import Prompt, Confirm
 
 from core.capability_checker import CapabilityChecker
 from core.progress_tracker.tracker import ProgressTracker
-from core.progress_tracker.assessments import PlacementAssessment
+from core.progress_tracker.assessments import PlacementAssessment, CommandLineAssessment
 
 console = Console()
 
@@ -245,6 +245,14 @@ def subjects():
             "hours": "15-23",
             "status": "available",
         },
+        {
+            "id": "command-line-mastery",
+            "name": "Command Line Mastery",
+            "description": "Terminal navigation and shell scripting",
+            "levels": 5,
+            "hours": "30-42",
+            "status": "available",
+        },
     ]
 
     subjects_table = Table(show_header=True, header_style="bold")
@@ -277,18 +285,24 @@ def assess(subject_id):
     """
     if not subject_id:
         console.print("\n[yellow]Available assessments:[/yellow]\n")
-        console.print("  [cyan]project-foundations[/cyan] - Documentation and planning skills\n")
+        console.print("  [cyan]project-foundations[/cyan] - Documentation and planning skills")
+        console.print("  [cyan]command-line-mastery[/cyan] - Terminal and shell scripting\n")
         console.print("[dim]Usage: maker assess project-foundations[/dim]\n")
         return
 
-    if subject_id != "project-foundations":
+    if subject_id not in ["project-foundations", "command-line-mastery"]:
         console.print(f"\n[red]Assessment not available for '{subject_id}'[/red]\n")
         return
 
-    console.print("\n[bold blue]Project Foundations - Placement Assessment[/bold blue]\n")
-    console.print("Answer these questions to find your starting level.\n")
+    # Select appropriate assessment
+    if subject_id == "project-foundations":
+        console.print("\n[bold blue]Project Foundations - Placement Assessment[/bold blue]\n")
+        assessment = PlacementAssessment()
+    else:  # command-line-mastery
+        console.print("\n[bold blue]Command Line Mastery - Placement Assessment[/bold blue]\n")
+        assessment = CommandLineAssessment()
 
-    assessment = PlacementAssessment()
+    console.print("Answer these questions to find your starting level.\n")
     tracker = ProgressTracker()
 
     # Level names for Project Foundations

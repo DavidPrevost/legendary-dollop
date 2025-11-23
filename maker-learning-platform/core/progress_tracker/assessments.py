@@ -343,6 +343,238 @@ class PlacementAssessment:
         )
 
 
+class CommandLineAssessment:
+    """Placement assessment for Command Line Mastery subject."""
+
+    def __init__(self):
+        self.questions = self._load_questions()
+        self.level_names = {
+            0: "Curious",
+            1: "Explorer",
+            2: "Tinkerer",
+            3: "Builder",
+            4: "Maker",
+        }
+
+    def _load_questions(self) -> list[Question]:
+        """Load assessment questions for Command Line Mastery."""
+        return [
+            # Level 0 questions (Terminal basics)
+            Question(
+                id="cli-0-1",
+                text="What command shows your current directory?",
+                options=["pwd", "cd", "ls", "dir"],
+                correct_index=0,
+                level=0,
+                concept="Print working directory",
+                explanation="pwd (print working directory) shows your current location in the file system."
+            ),
+            Question(
+                id="cli-0-2",
+                text="What does the ~ symbol represent in a path?",
+                options=[
+                    "Root directory",
+                    "Previous directory",
+                    "Home directory",
+                    "Temporary directory",
+                ],
+                correct_index=2,
+                level=0,
+                concept="Home directory shortcut",
+                explanation="The tilde (~) is a shortcut for your home directory."
+            ),
+            Question(
+                id="cli-0-3",
+                text="How do you go up one directory level?",
+                options=["cd ..", "cd /", "cd ~", "cd -"],
+                correct_index=0,
+                level=0,
+                concept="Parent directory",
+                explanation="cd .. moves up to the parent directory."
+            ),
+
+            # Level 1 questions (File operations)
+            Question(
+                id="cli-1-1",
+                text="What does 'chmod 755 script.sh' do?",
+                options=[
+                    "Deletes the file",
+                    "Makes it executable for all, writable only for owner",
+                    "Makes it read-only",
+                    "Hides the file",
+                ],
+                correct_index=1,
+                level=1,
+                concept="File permissions",
+                explanation="755 = rwxr-xr-x: owner can read/write/execute, others can read/execute."
+            ),
+            Question(
+                id="cli-1-2",
+                text="What flag makes 'cp' copy directories recursively?",
+                options=["-r", "-f", "-a", "-v"],
+                correct_index=0,
+                level=1,
+                concept="Recursive copy",
+                explanation="cp -r copies directories and their contents recursively."
+            ),
+            Question(
+                id="cli-1-3",
+                text="Which command shows the last 10 lines of a file?",
+                options=["head", "tail", "less", "cat"],
+                correct_index=1,
+                level=1,
+                concept="Viewing file end",
+                explanation="tail shows the last lines of a file (default 10)."
+            ),
+
+            # Level 2 questions (Search and text processing)
+            Question(
+                id="cli-2-1",
+                text="What does 'grep -r' do?",
+                options=[
+                    "Reverse the output",
+                    "Search recursively in directories",
+                    "Use regular expressions",
+                    "Show only count",
+                ],
+                correct_index=1,
+                level=2,
+                concept="Recursive grep",
+                explanation="grep -r searches through all files in a directory recursively."
+            ),
+            Question(
+                id="cli-2-2",
+                text="What must you do before using 'uniq' effectively?",
+                options=[
+                    "Make the file executable",
+                    "Sort the input",
+                    "Convert to lowercase",
+                    "Remove blank lines",
+                ],
+                correct_index=1,
+                level=2,
+                concept="Uniq prerequisites",
+                explanation="uniq only removes consecutive duplicates, so sort first."
+            ),
+            Question(
+                id="cli-2-3",
+                text="What regex matches lines starting with 'Error'?",
+                options=["Error$", "^Error", "*Error", "Error*"],
+                correct_index=1,
+                level=2,
+                concept="Regex anchors",
+                explanation="^ anchors to the start of line, so ^Error matches lines beginning with Error."
+            ),
+
+            # Level 3 questions (Pipes and environment)
+            Question(
+                id="cli-3-1",
+                text="What does '2>&1' do in a command?",
+                options=[
+                    "Runs the command twice",
+                    "Redirects stderr to stdout",
+                    "Creates two output files",
+                    "Waits 2 seconds then runs",
+                ],
+                correct_index=1,
+                level=3,
+                concept="Stream redirection",
+                explanation="2>&1 redirects stderr (2) to the same place as stdout (1)."
+            ),
+            Question(
+                id="cli-3-2",
+                text="Where do you put persistent aliases?",
+                options=[
+                    "/etc/aliases",
+                    "~/.bashrc or ~/.zshrc",
+                    "~/.profile.d",
+                    "/usr/local/aliases",
+                ],
+                correct_index=1,
+                level=3,
+                concept="Shell configuration",
+                explanation="Aliases go in your shell config file (.bashrc for bash, .zshrc for zsh)."
+            ),
+            Question(
+                id="cli-3-3",
+                text="What signal does 'kill -9' send?",
+                options=["SIGTERM", "SIGHUP", "SIGKILL", "SIGINT"],
+                correct_index=2,
+                level=3,
+                concept="Kill signals",
+                explanation="kill -9 sends SIGKILL, which forcefully terminates a process."
+            ),
+
+            # Level 4 questions (Scripting and networking)
+            Question(
+                id="cli-4-1",
+                text="What does 'set -e' do in a bash script?",
+                options=[
+                    "Enables echo mode",
+                    "Exits on first error",
+                    "Exports all variables",
+                    "Enables extended globbing",
+                ],
+                correct_index=1,
+                level=4,
+                concept="Script error handling",
+                explanation="set -e makes the script exit immediately if any command fails."
+            ),
+            Question(
+                id="cli-4-2",
+                text="How do you send a POST request with curl?",
+                options=[
+                    "curl --post",
+                    "curl -X POST",
+                    "curl -P",
+                    "curl -post-data",
+                ],
+                correct_index=1,
+                level=4,
+                concept="HTTP methods with curl",
+                explanation="curl -X POST specifies the HTTP method as POST."
+            ),
+            Question(
+                id="cli-4-3",
+                text="What does '$!' represent in bash?",
+                options=[
+                    "Last exit code",
+                    "PID of last background process",
+                    "Current script name",
+                    "Number of arguments",
+                ],
+                correct_index=1,
+                level=4,
+                concept="Special variables",
+                explanation="$! contains the PID of the most recent background process."
+            ),
+        ]
+
+    def calculate_level(self, correct: int, total: int) -> AssessmentResult:
+        """Calculate recommended level based on score."""
+        percentage = (correct / total * 100) if total > 0 else 0
+
+        if percentage >= 90:
+            level = 4
+        elif percentage >= 75:
+            level = 3
+        elif percentage >= 60:
+            level = 2
+        elif percentage >= 40:
+            level = 1
+        else:
+            level = 0
+
+        return AssessmentResult(
+            total_questions=total,
+            correct_answers=correct,
+            percentage=percentage,
+            recommended_level=level,
+            level_name=self.level_names[level],
+            details={"score": correct, "total": total}
+        )
+
+
 def run_placement_assessment() -> AssessmentResult:
     """Run an interactive placement assessment.
 

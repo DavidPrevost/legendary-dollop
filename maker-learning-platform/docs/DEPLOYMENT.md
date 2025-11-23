@@ -95,6 +95,22 @@ Content location: `content/topics/project-foundations/`
 - Project validation system
 - Progress tracking
 
+### Command Line Mastery (Complete)
+
+Terminal navigation, file operations, and shell scripting.
+
+- **Levels**: 5 (Curious → Maker)
+- **Time**: 30-42 hours
+- **Concepts**: 380
+
+Content location: `content/topics/command-line-mastery/`
+
+**Includes:**
+- 12 tutorial modules
+- 5 milestone projects
+- Placement assessment (15 questions)
+- Cross-platform coverage (Bash, PowerShell)
+
 ## Data Storage
 
 User progress is stored locally in `.maker-data/progress.json`.
@@ -115,8 +131,11 @@ maker-learning-platform/
 │   └── project_validator/   # Project validation
 ├── content/                 # Learning content
 │   └── topics/
-│       └── project-foundations/
-│           ├── tutorials/   # 11 modules
+│       ├── project-foundations/
+│       │   ├── tutorials/   # 11 modules
+│       │   └── projects/    # 5 project YAMLs
+│       └── command-line-mastery/
+│           ├── tutorials/   # 12 modules
 │           └── projects/    # 5 project YAMLs
 ├── platform/
 │   └── cli/                 # Command-line interface

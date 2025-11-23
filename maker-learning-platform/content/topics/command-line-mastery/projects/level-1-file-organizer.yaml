@@ -1,0 +1,123 @@
+id: cli-level-1-file-organizer
+name: File Organizer
+subject: command-line-mastery
+level: 1
+level_name: Explorer
+
+description: |
+  Organize a messy folder by sorting files into categorized directories.
+  Practice file operations while creating order from chaos.
+
+estimated_time: 45-60 minutes
+
+learning_objectives:
+  - Create organized directory structures
+  - Move and copy files efficiently
+  - View file details and sizes
+  - Log operations for tracking
+
+prerequisites:
+  concepts:
+    - File operations (cp, mv, rm)
+    - Directory creation
+    - File permissions
+    - Viewing file info
+  tools:
+    - Terminal access
+    - Sample messy folder (provided)
+
+deliverables:
+  - name: organized_folder
+    description: Sorted files by category
+    type: directory
+
+  - name: operations_log.txt
+    description: Log of all file operations performed
+    type: file
+
+  - name: summary_report.txt
+    description: Before/after comparison with sizes
+    type: file
+
+requirements:
+  - id: category_directories
+    description: At least 4 category directories created
+    validation:
+      type: directory_count
+      path: organized_folder
+      min_count: 4
+
+  - id: files_sorted
+    description: All files moved to appropriate categories
+    validation:
+      type: manual
+      criteria: No files remain in root, each in logical category
+
+  - id: operations_logged
+    description: Log shows all move/copy operations
+    validation:
+      type: word_count
+      file: operations_log.txt
+      min_words: 50
+
+  - id: size_summary
+    description: Summary includes size of each category
+    validation:
+      type: file_contains
+      file: summary_report.txt
+      patterns:
+        - "bytes"
+        - "files"
+
+starter_structure:
+  directories:
+    - messy_folder/
+    - organized_folder/
+  files:
+    - name: messy_folder/readme.txt
+      content: "Project readme file"
+    - name: messy_folder/photo1.jpg
+      content: "[sample image data]"
+    - name: messy_folder/script.py
+      content: "print('hello')"
+    - name: messy_folder/notes.md
+      content: "# Notes"
+    - name: messy_folder/data.csv
+      content: "a,b,c\n1,2,3"
+    - name: messy_folder/config.json
+      content: "{}"
+    - name: messy_folder/backup.zip
+      content: "[archive data]"
+    - name: messy_folder/song.mp3
+      content: "[audio data]"
+    - name: messy_folder/video.mp4
+      content: "[video data]"
+    - name: messy_folder/report.pdf
+      content: "[pdf data]"
+
+suggested_categories:
+  - documents/    # txt, md, pdf
+  - media/        # jpg, mp3, mp4
+  - code/         # py, js, sh
+  - data/         # csv, json, xml
+  - archives/     # zip, tar, gz
+
+hints:
+  - level: 1
+    text: List files with `ls -lh` to see sizes before organizing
+
+  - level: 2
+    text: Use wildcards like `mv *.jpg media/` to move multiple files
+
+  - level: 3
+    text: Log each command with `echo "moved X to Y" >> log.txt`
+
+extensions:
+  - Handle files with no extension
+  - Create subdirectories within categories (e.g., media/images, media/audio)
+  - Write a script that could automate this organization
+
+reflection_questions:
+  - What was your strategy for categorizing files?
+  - Which commands did you use most frequently?
+  - How would you handle a folder with 1000 files?
