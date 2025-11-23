@@ -132,7 +132,7 @@ Use Python venv for dependency isolation. Provide clear setup instructions for W
 ## ADR-006: Skill Level Scaling Strategy
 
 ### Status
-Accepted
+Superseded by ADR-009
 
 ### Context
 Skills need to support both hobbyist exploration and professional mastery. How do we represent this?
@@ -210,13 +210,225 @@ Platform will be used on Windows 11, macOS, and Linux. Commands and paths must w
 
 ---
 
+## ADR-009: Variable Levels Per Subject
+
+### Status
+Accepted (supersedes ADR-006)
+
+### Context
+Different Subjects have different natural depths. Python has far more depth than Markdown. Forcing uniform level counts either inflates simple Subjects or compresses complex ones.
+
+### Decision
+Allow each Subject to define its own number of levels (typically 3-7) with custom level names. Use "bands" for cross-Subject comparison:
+- **Novice** (levels 0-1): Following tutorials, basic syntax
+- **Competent** (levels 2-3): Modifying code, building from scratch
+- **Proficient** (levels 4-5): Complex projects, system design
+- **Expert** (levels 6+): Teaching, contributing
+
+Examples:
+- Python: 7 levels (Curious → Explorer → Tinkerer → Builder → Maker → Architect → Mentor)
+- Markdown: 3 levels (Curious → Competent → Fluent)
+- Docker: 5 levels (Curious → User → Composer → Orchestrator → Platform Engineer)
+
+### Rationale
+- **Supports Principle 8 (Progressive Complexity)**: Honest representation of Subject depth
+- **Supports Principle 6 (User Agency)**: Users see realistic progression
+- Bands enable comparison without false equivalence
+- Reduces content burden for simpler Subjects
+
+### Consequences
+- More complex data model (level count varies)
+- UI must handle variable level counts
+- Subject definitions require more thought
+- Band mapping needed for cross-Subject features
+
+---
+
+## ADR-010: Subject/Language/Topic Terminology
+
+### Status
+Accepted
+
+### Context
+Using "Skill" as both a category and a thing you gain caused confusion. Need clear terminology.
+
+### Decision
+Adopt the following hierarchy:
+- **Subject**: Umbrella term for anything learnable
+  - **Language**: Programming/markup/config languages (Python, HTML, YAML)
+  - **Topic**: Technical knowledge that isn't a language (Git, Networking, Security)
+
+Avoid "Skill" as a category name; use it only to describe what users gain.
+
+### Rationale
+- **Supports clarity**: No ambiguity between categories and outcomes
+- Aligns with educational terminology
+- Scales to future content types
+
+### Consequences
+- Codebase uses Subject/Language/Topic consistently
+- Documentation updated to match
+- UI labels reflect new terminology
+
+---
+
+## ADR-011: Placement Assessments
+
+### Status
+Accepted
+
+### Context
+Users may already know a Subject. Making them complete all early projects wastes time and is demotivating.
+
+### Decision
+Offer optional placement assessments (5-15 minutes) that allow users to demonstrate existing knowledge and skip levels they've mastered. Assessments:
+- Are always optional (Principle 6)
+- Test observable skills, not trivia
+- Can be retaken
+- Unlock appropriate starting level
+
+### Rationale
+- **Supports Principle 6 (User Agency)**: Users choose to skip or learn
+- **Supports Principle 5 (Accessibility First)**: Respects users' existing knowledge
+- Reduces friction for experienced makers
+- Enables integration project access without completing all prerequisites
+
+### Consequences
+- Assessment content needed per Subject
+- Must prevent gaming (randomized questions)
+- Results stored in progress data
+- Clear UI for "test out" vs "learn from start"
+
+---
+
+## ADR-012: Hardware Shopping List
+
+### Status
+Accepted
+
+### Context
+Users need to know what hardware projects require. Static cost estimates become outdated quickly.
+
+### Decision
+Instead of embedding costs, provide a dynamic "Shopping List" feature:
+- Projects declare hardware requirements
+- User marks what they already have (via capability detection or manual input)
+- Shopping List shows only what's missing
+- Links to current product pages where possible (not prices)
+
+### Rationale
+- **Supports Principle 5 (Accessibility First)**: Clear visibility of requirements
+- **Supports Principle 6 (User Agency)**: Users make informed decisions
+- Avoids stale price information
+- Encourages users to inventory their capabilities
+
+### Consequences
+- Hardware items need stable identifiers
+- Regional availability varies (some items unavailable globally)
+- Links need periodic validation
+- User capability data must be editable
+
+---
+
+## ADR-013: Time Estimates in Projects
+
+### Status
+Accepted (with reassessment planned)
+
+### Context
+Users want to know how long projects take for planning purposes.
+
+### Decision
+Include time estimates in all projects. Estimates should:
+- Use ranges (e.g., "2-4 hours")
+- Assume the user is at the minimum required level
+- Be validated during testing phase
+
+Plan to reassess accuracy during late testing and consider removal if estimates prove unreliable.
+
+### Rationale
+- **Supports planning**: Users can fit learning into their schedules
+- Provides expectations management
+- Useful for comparing project scope
+
+### Consequences
+- Estimates require validation
+- Individual variance is high
+- May need "your mileage may vary" disclaimer
+- Potential for user frustration if estimates are wrong
+
+---
+
+## ADR-014: GUI as Target Interface
+
+### Status
+Accepted
+
+### Context
+CLI is appropriate for Phase 1 and developer-focused users, but "Curious" level users need a more approachable interface.
+
+### Decision
+Plan for GUI as the primary interface for general users. CLI remains:
+- The MVP interface (ship fast)
+- A first-class citizen (not deprecated)
+- The interface for power users and automation
+
+Web-based GUI is planned for Phase 6 but should influence architecture decisions now.
+
+### Rationale
+- **Supports Principle 5 (Accessibility First)**: GUI is more approachable
+- CLI-first enables faster shipping
+- Parallel support serves different user preferences
+- Architecture should not assume CLI-only
+
+### Consequences
+- Core logic must be UI-agnostic
+- Data models should support both interfaces
+- CLI commands map to GUI actions
+- Web development is on the roadmap
+
+---
+
+## ADR-015: Offline-First with Physical Media Support
+
+### Status
+Accepted
+
+### Context
+Platform should work without internet. In extreme cases, should be distributable on physical media to air-gapped systems.
+
+### Decision
+Design for full offline functionality:
+- All content bundled with installation
+- Progress stored locally
+- No features require network for core learning
+- Support distribution via USB/disc for air-gapped systems
+
+Network-dependent content (e.g., "Using GitHub") clearly marked. Updates fetched when online but not required.
+
+### Rationale
+- **Supports Principle 5 (Accessibility First)**: Works anywhere, any connection
+- Aligns with maker/self-sufficiency ethos
+- Enables use in schools, libraries, remote areas
+- Privacy-respecting (no telemetry required)
+
+### Consequences
+- Content bundled increases install size
+- Update mechanism needed but not required
+- Some Subjects inherently need network (clearly marked)
+- Sync conflicts possible if user has multiple installations
+
+---
+
 ## Future Decisions to Document
 
 - [ ] Database choice for progress storage (SQLite vs JSON files)
 - [ ] Plugin system design for community content
 - [ ] Hardware detection strategy
 - [ ] Project validation approach
-- [ ] Web UI technology stack (when Phase 3 begins)
+- [ ] Web UI technology stack (when Phase 6 begins)
+- [ ] Assessment question format and randomization
+- [ ] Shopping list link management
 
 ---
 
