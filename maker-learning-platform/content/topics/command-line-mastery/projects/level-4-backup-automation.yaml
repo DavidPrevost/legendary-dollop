@@ -1,0 +1,239 @@
+id: cli-level-4-backup-automation
+name: Backup Automation Script
+subject: command-line-mastery
+level: 4
+level_name: Maker
+
+description: |
+  Create an automated backup system using shell scripting. Includes
+  compression, rotation, logging, and configuration.
+
+estimated_time: 120-180 minutes
+
+learning_objectives:
+  - Write maintainable shell scripts
+  - Handle arguments and configuration
+  - Implement error handling
+  - Use compression and archiving
+  - Create automated scheduling
+
+prerequisites:
+  concepts:
+    - Shell scripting fundamentals
+    - Control flow (if, for, while)
+    - Functions
+    - Compression tools
+    - Cron scheduling
+  tools:
+    - Terminal access
+    - tar, gzip
+    - cron or Task Scheduler
+
+deliverables:
+  - name: backup.sh
+    description: Main backup script
+    type: file
+
+  - name: backup.conf
+    description: Configuration file
+    type: file
+
+  - name: README.md
+    description: Usage documentation
+    type: file
+
+  - name: cron_setup.txt
+    description: Cron job configuration
+    type: file
+
+requirements:
+  - id: argument_handling
+    description: Script accepts command-line arguments
+    validation:
+      type: file_contains
+      file: backup.sh
+      patterns:
+        - "$1"
+        - "usage"
+
+  - id: configuration
+    description: Reads settings from config file
+    validation:
+      type: file_contains
+      file: backup.sh
+      patterns:
+        - "source"
+        - ".conf"
+
+  - id: compression
+    description: Creates compressed archives
+    validation:
+      type: file_contains
+      file: backup.sh
+      patterns:
+        - "tar"
+        - "gz"
+
+  - id: logging
+    description: Logs operations with timestamps
+    validation:
+      type: file_contains
+      file: backup.sh
+      patterns:
+        - "log"
+        - "date"
+
+  - id: rotation
+    description: Implements backup rotation
+    validation:
+      type: file_contains
+      file: backup.sh
+      patterns:
+        - "find"
+        - "delete"
+
+  - id: error_handling
+    description: Handles errors gracefully
+    validation:
+      type: file_contains
+      file: backup.sh
+      patterns:
+        - "if"
+        - "exit"
+
+  - id: documentation
+    description: README explains usage
+    validation:
+      type: word_count
+      file: README.md
+      min_words: 200
+
+starter_structure:
+  directories:
+    - backup_project/
+    - backup_project/logs/
+  files:
+    - name: backup_project/backup.sh
+      content: |
+        #!/bin/bash
+        # Automated Backup Script
+        # Usage: ./backup.sh [options]
+
+        set -e  # Exit on error
+
+        # Load configuration
+        CONFIG_FILE="backup.conf"
+        if [[ -f "$CONFIG_FILE" ]]; then
+            source "$CONFIG_FILE"
+        else
+            echo "Error: Config file not found"
+            exit 1
+        fi
+
+        # Functions
+        usage() {
+            echo "Usage: $0 [-h] [-v] [-c config]"
+            echo "  -h  Show help"
+            echo "  -v  Verbose mode"
+            echo "  -c  Specify config file"
+            exit 0
+        }
+
+        log() {
+            echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" >> "$LOG_FILE"
+            [[ "$VERBOSE" == "true" ]] && echo "$1"
+        }
+
+        # Parse arguments
+        while getopts "hvc:" opt; do
+            case $opt in
+                h) usage ;;
+                v) VERBOSE="true" ;;
+                c) CONFIG_FILE="$OPTARG" ;;
+                *) usage ;;
+            esac
+        done
+
+        # Main backup logic
+        # Add your implementation here
+
+        log "Backup completed successfully"
+
+    - name: backup_project/backup.conf
+      content: |
+        # Backup Configuration
+
+        # Directories to backup (space-separated)
+        SOURCE_DIRS="/home/user/documents /home/user/projects"
+
+        # Backup destination
+        BACKUP_DIR="/home/user/backups"
+
+        # Retention (days)
+        RETENTION_DAYS=30
+
+        # Log file
+        LOG_FILE="./logs/backup.log"
+
+        # Compression level (1-9)
+        COMPRESSION=6
+
+        # Verbose output
+        VERBOSE="false"
+
+    - name: backup_project/README.md
+      content: |
+        # Backup Automation Script
+
+        ## Overview
+
+        (Describe your backup system)
+
+        ## Installation
+
+        ## Configuration
+
+        ## Usage
+
+        ## Examples
+
+        ## Scheduling
+
+        ## Troubleshooting
+
+script_features:
+  - Command-line argument parsing
+  - Configuration file support
+  - Timestamped compressed archives
+  - Logging with different levels
+  - Backup rotation (delete old)
+  - Dry-run mode
+  - Verbose mode
+  - Help/usage message
+
+hints:
+  - level: 1
+    text: Use `getopts` for parsing arguments
+
+  - level: 2
+    text: |
+      Create archive name with:
+      backup_$(date +%Y%m%d_%H%M%S).tar.gz
+
+  - level: 3
+    text: |
+      Delete old backups with:
+      find $BACKUP_DIR -name "*.tar.gz" -mtime +$RETENTION_DAYS -delete
+
+extensions:
+  - Add incremental backup support
+  - Include remote sync with rsync or scp
+  - Send email notifications on failure
+  - Create restore script
+  - Add encryption for sensitive backups
+
+reflection_questions:
+  - How does your script handle edge cases?
+  - What would happen if the script fails mid-backup?
+  - How would you test this script safely?
+  - What logging is most useful for debugging?

@@ -1,0 +1,218 @@
+project:
+  id: "project-foundations-project-scaffold"
+  name: "Project Scaffold"
+  subject_id: "project-foundations"
+  level: 2
+
+  description:
+    short: "Create a complete project scaffold with README, structure, and standard files."
+    full: |
+      Create a complete project folder structure for a real project idea. This includes
+      a comprehensive README with all essential sections, proper directory organization,
+      LICENSE, .gitignore, CONTRIBUTING.md, and CHANGELOG.md. The result is a project
+      scaffold you can actually use as the foundation for your first real project.
+
+  outcome: "A complete, professional project scaffold ready for development"
+
+value:
+  life_improvement: |
+    You now have a project template you'll reuse for every future project. Proper
+    structure from the start prevents technical debt and makes your projects
+    maintainable. This scaffold can be your personal boilerplate.
+
+  learning_goals:
+    - Write comprehensive README files with all essential sections
+    - Organize projects with proper directory structure
+    - Select and apply appropriate open source licenses
+    - Create useful .gitignore files
+    - Write contributor guidelines
+
+  unlocks:
+    - Can start any project with professional structure
+    - Ready to publish projects on GitHub
+    - Foundation for Git/GitHub subject
+
+requirements:
+  primary:
+    subject_id: "project-foundations"
+    min_level: 2
+
+  integrations: []
+
+  recommended:
+    - subject_id: "project-foundations"
+      min_level: 1
+      reason: "Markdown skills needed for README and docs"
+
+environment:
+  platforms:
+    windows: true
+    macos: true
+    linux: true
+
+  variants:
+    windows: null
+    macos: null
+    linux: null
+
+  software_required:
+    - name: "Text editor"
+      install_notes: "Any text editor with folder/project view recommended"
+
+  hardware_required: []
+
+  hardware_optional: []
+
+estimates:
+  time: "2-4 hours"
+
+  difficulty:
+    overall: "intermediate"
+    concepts: "easy"
+    implementation: "medium"
+    debugging: "easy"
+
+safety:
+  legal_notes: "Choose a license that matches how you want others to use your code"
+  security_notes: "Ensure .gitignore excludes sensitive files (.env, credentials, etc.)"
+  warnings:
+    - "Don't include API keys or passwords in any files"
+
+structure:
+  files:
+    - path: "README.md"
+      purpose: "Comprehensive project documentation"
+    - path: "LICENSE"
+      purpose: "Open source license (MIT recommended for beginners)"
+    - path: ".gitignore"
+      purpose: "Files to exclude from version control"
+    - path: "CONTRIBUTING.md"
+      purpose: "Guidelines for contributors"
+    - path: "CHANGELOG.md"
+      purpose: "Record of changes by version"
+    - path: "src/.gitkeep"
+      purpose: "Placeholder to preserve empty directory"
+    - path: "tests/.gitkeep"
+      purpose: "Placeholder to preserve empty directory"
+    - path: "docs/.gitkeep"
+      purpose: "Placeholder to preserve empty directory"
+    - path: "examples/.gitkeep"
+      purpose: "Placeholder to preserve empty directory"
+
+  directories:
+    - path: "src/"
+      purpose: "Source code"
+    - path: "tests/"
+      purpose: "Test files"
+    - path: "docs/"
+      purpose: "Additional documentation"
+    - path: "examples/"
+      purpose: "Usage examples"
+
+  final_structure: |
+    project-name/
+    ├── README.md
+    ├── LICENSE
+    ├── .gitignore
+    ├── CONTRIBUTING.md
+    ├── CHANGELOG.md
+    ├── src/
+    │   └── .gitkeep
+    ├── tests/
+    │   └── .gitkeep
+    ├── docs/
+    │   └── .gitkeep
+    └── examples/
+        └── .gitkeep
+
+validation:
+  automated:
+    - check: "file_exists('README.md')"
+      error_message: "README.md not found"
+    - check: "file_exists('LICENSE')"
+      error_message: "LICENSE file not found"
+    - check: "file_exists('.gitignore')"
+      error_message: ".gitignore not found"
+    - check: "file_exists('CONTRIBUTING.md')"
+      error_message: "CONTRIBUTING.md not found"
+    - check: "file_exists('CHANGELOG.md')"
+      error_message: "CHANGELOG.md not found"
+    - check: "dir_exists('src')"
+      error_message: "src/ directory not found"
+    - check: "dir_exists('tests')"
+      error_message: "tests/ directory not found"
+    - check: "dir_exists('docs')"
+      error_message: "docs/ directory not found"
+    - check: "has_section('README.md', 'Installation')"
+      error_message: "README missing Installation section"
+    - check: "has_section('README.md', 'Usage')"
+      error_message: "README missing Usage section"
+    - check: "license_valid('LICENSE')"
+      error_message: "LICENSE file doesn't contain a valid license"
+    - check: "changelog_format('CHANGELOG.md')"
+      error_message: "CHANGELOG doesn't follow Keep a Changelog format"
+
+  manual:
+    - "README has all eight required sections with real content"
+    - "Installation instructions are specific enough to follow"
+    - "Usage examples are realistic for the chosen project"
+    - ".gitignore is appropriate for the chosen language/framework"
+    - "CONTRIBUTING.md has meaningful guidance"
+    - "No placeholder text (TODO, Lorem ipsum, etc.)"
+    - "Folder names follow language conventions"
+
+  definition_of_done: |
+    Someone could clone this project and understand what it does, how to set it up,
+    and how to contribute—all from the documentation alone. The structure follows
+    best practices for the chosen language/framework.
+
+support:
+  pitfalls:
+    - issue: "Generic .gitignore that doesn't match the project"
+      solution: "Use gitignore.io or GitHub's templates for your specific language"
+    - issue: "Installation instructions that assume too much"
+      solution: "Write as if the reader has never used this language. Include prerequisites."
+    - issue: "Choosing a random license without understanding it"
+      solution: "Read choosealicense.com - MIT is good for most personal projects"
+    - issue: "Empty CONTRIBUTING.md"
+      solution: "At minimum: how to report bugs, how to suggest features, code style basics"
+
+  hints:
+    - level: 1
+      hint: "Pick one of the suggested project ideas—they're scoped well for this exercise"
+    - level: 2
+      hint: "For installation, pretend you're writing for someone who just installed Python/Node/etc."
+    - level: 3
+      hint: "The CHANGELOG should start with ## [Unreleased] section for upcoming changes"
+
+extensions:
+  - name: "GitHub Templates"
+    description: "Add issue and PR templates in .github/ directory"
+    difficulty: "medium"
+    skills_practiced:
+      - "GitHub features"
+      - "Template design"
+
+  - name: "CI Configuration"
+    description: "Add a basic GitHub Actions workflow file"
+    difficulty: "hard"
+    skills_practiced:
+      - "CI/CD basics"
+      - "YAML configuration"
+
+content:
+  template_path: "/content/topics/project-foundations/projects/level-2-project-scaffold/"
+
+  resources:
+    - type: "tutorial"
+      title: "README Writing Guide"
+      location: "tutorials/readme-writing.md"
+    - type: "tutorial"
+      title: "Project Structure Guide"
+      location: "tutorials/project-structure.md"
+    - type: "reference"
+      title: "License Comparison"
+      location: "reference/licenses.md"
+    - type: "reference"
+      title: "gitignore Templates"
+      location: "reference/gitignore-templates.md"

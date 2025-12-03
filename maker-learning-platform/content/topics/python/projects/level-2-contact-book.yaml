@@ -1,0 +1,205 @@
+id: py-level-2-contact-book
+name: Contact Book Application
+subject: python
+level: 2
+level_name: Tinkerer
+
+description: |
+  Build an OOP-based contact manager with classes for Contact and ContactBook.
+  Supports CRUD operations, search, and CSV import/export.
+
+estimated_time: 120-150 minutes
+
+learning_objectives:
+  - Design and implement classes
+  - Use special methods (__str__, __repr__)
+  - Organize code as modules
+  - Handle multiple file formats
+
+prerequisites:
+  concepts:
+    - Class definition
+    - Instance methods and attributes
+    - File I/O (JSON, CSV)
+    - Module organization
+  tools:
+    - Python 3.x installed
+
+deliverables:
+  - name: contact_book/
+    description: Package directory
+    type: directory
+
+  - name: contact_book/contact.py
+    description: Contact class
+    type: file
+
+  - name: contact_book/book.py
+    description: ContactBook class
+    type: file
+
+  - name: contact_book/__init__.py
+    description: Package init
+    type: file
+
+  - name: main.py
+    description: CLI interface
+    type: file
+
+requirements:
+  - id: contact_class
+    description: Contact class with required attributes
+    validation:
+      type: class_exists
+      class: Contact
+      attributes: [name, phone, email]
+
+  - id: book_class
+    description: ContactBook with CRUD operations
+    validation:
+      type: class_exists
+      class: ContactBook
+      methods: [add, remove, find, list_all]
+
+  - id: search
+    description: Search contacts by partial name match
+    validation:
+      type: method_exists
+      class: ContactBook
+      method: search
+
+  - id: csv_export
+    description: Export contacts to CSV
+    validation:
+      type: method_exists
+      class: ContactBook
+      method: to_csv
+
+  - id: csv_import
+    description: Import contacts from CSV
+    validation:
+      type: method_exists
+      class: ContactBook
+      method: from_csv
+
+starter_code:
+  - name: contact_book/__init__.py
+    content: |
+      from .contact import Contact
+      from .book import ContactBook
+
+  - name: contact_book/contact.py
+    content: |
+      """Contact model for the contact book."""
+
+      class Contact:
+          """Represents a single contact."""
+
+          def __init__(self, name, phone="", email=""):
+              """Initialize a contact."""
+              # Your code here
+              pass
+
+          def __str__(self):
+              """String representation for display."""
+              # Your code here
+              pass
+
+          def __repr__(self):
+              """Detailed representation for debugging."""
+              # Your code here
+              pass
+
+          def to_dict(self):
+              """Convert contact to dictionary."""
+              # Your code here
+              pass
+
+          @classmethod
+          def from_dict(cls, data):
+              """Create contact from dictionary."""
+              # Your code here
+              pass
+
+  - name: contact_book/book.py
+    content: |
+      """ContactBook manages a collection of contacts."""
+
+      import json
+      import csv
+      from .contact import Contact
+
+      class ContactBook:
+          """Manages a collection of contacts."""
+
+          def __init__(self, filename="contacts.json"):
+              """Initialize contact book."""
+              self.filename = filename
+              self.contacts = []
+              self.load()
+
+          def add(self, contact):
+              """Add a contact to the book."""
+              # Your code here
+              pass
+
+          def remove(self, name):
+              """Remove a contact by name."""
+              # Your code here
+              pass
+
+          def find(self, name):
+              """Find contact by exact name."""
+              # Your code here
+              pass
+
+          def search(self, query):
+              """Search contacts by partial name match."""
+              # Your code here
+              pass
+
+          def list_all(self):
+              """Return all contacts."""
+              # Your code here
+              pass
+
+          def save(self):
+              """Save contacts to JSON file."""
+              # Your code here
+              pass
+
+          def load(self):
+              """Load contacts from JSON file."""
+              # Your code here
+              pass
+
+          def to_csv(self, filename):
+              """Export contacts to CSV."""
+              # Your code here
+              pass
+
+          def from_csv(self, filename):
+              """Import contacts from CSV."""
+              # Your code here
+              pass
+
+hints:
+  - level: 1
+    text: Use a list to store Contact objects in ContactBook
+
+  - level: 2
+    text: For search, use 'in' operator with lower() for case-insensitive match
+
+  - level: 3
+    text: Use csv.DictWriter for CSV export with fieldnames
+
+extensions:
+  - Add contact groups/tags
+  - Import from vCard format
+  - Add phone number validation
+  - Support multiple phone numbers per contact
+
+reflection_questions:
+  - What makes a good separation between Contact and ContactBook?
+  - How did you handle duplicate contacts?
+  - What would you change for a larger contact list?

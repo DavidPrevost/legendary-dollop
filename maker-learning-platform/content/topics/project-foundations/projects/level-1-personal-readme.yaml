@@ -1,0 +1,175 @@
+project:
+  id: "project-foundations-personal-readme"
+  name: "Personal README"
+  subject_id: "project-foundations"
+  level: 1
+
+  description:
+    short: "Create a comprehensive personal README introducing yourself as a maker."
+    full: |
+      Create a personal README file that introduces yourself, your interests, and your
+      maker goals. This project applies all Markdown fundamentals to produce a genuine,
+      useful document similar to GitHub profile READMEs. You'll use headings, lists,
+      tables, code blocks, and links to create a polished self-introduction.
+
+  outcome: "A complete personal README in Markdown that you can use on GitHub or anywhere you need to introduce yourself"
+
+value:
+  life_improvement: |
+    You now have a reusable personal introduction document. Use it on GitHub, in project
+    submissions, job applications, or community introductions. This is a living document
+    you'll update as your skills grow.
+
+  learning_goals:
+    - Apply all Markdown formatting elements correctly
+    - Structure a document with proper heading hierarchy
+    - Write for an audience (not just yourself)
+    - Create tables and formatted lists
+    - Use code blocks with syntax highlighting
+
+  unlocks:
+    - Can create any Markdown document
+    - Ready to write README files for projects
+    - Foundation for all future documentation
+
+requirements:
+  primary:
+    subject_id: "project-foundations"
+    min_level: 1
+
+  integrations: []
+
+  recommended:
+    - subject_id: "project-foundations"
+      min_level: 0
+      reason: "Builds on reflection work from Platform Explorer"
+
+environment:
+  platforms:
+    windows: true
+    macos: true
+    linux: true
+
+  variants:
+    windows: null
+    macos: null
+    linux: null
+
+  software_required:
+    - name: "Text editor"
+      install_notes: "Any text editor works. VS Code recommended for Markdown preview."
+
+  hardware_required: []
+
+  hardware_optional: []
+
+estimates:
+  time: "2-3 hours"
+
+  difficulty:
+    overall: "beginner"
+    concepts: "easy"
+    implementation: "easy"
+    debugging: "easy"
+
+safety:
+  legal_notes: null
+  security_notes: "Don't include personal information you wouldn't share publicly (phone, address, etc.)"
+  warnings:
+    - "This document may be public—only include what you're comfortable sharing"
+
+structure:
+  files:
+    - path: "PERSONAL_README.md"
+      purpose: "Your personal introduction document"
+
+  directories: []
+
+  final_structure: |
+    my-maker-journey/
+    └── PERSONAL_README.md
+
+validation:
+  automated:
+    - check: "file_exists('PERSONAL_README.md')"
+      error_message: "Personal README file not found"
+    - check: "has_heading_levels('PERSONAL_README.md', 3)"
+      error_message: "README should use at least 3 heading levels"
+    - check: "has_element('PERSONAL_README.md', 'unordered_list')"
+      error_message: "README should include an unordered list"
+    - check: "has_element('PERSONAL_README.md', 'ordered_list')"
+      error_message: "README should include an ordered list"
+    - check: "has_element('PERSONAL_README.md', 'table')"
+      error_message: "README should include a table"
+    - check: "has_element('PERSONAL_README.md', 'code_block')"
+      error_message: "README should include a code block"
+    - check: "has_element('PERSONAL_README.md', 'link')"
+      error_message: "README should include at least one link"
+    - check: "markdown_valid('PERSONAL_README.md')"
+      error_message: "README has Markdown syntax errors"
+
+  manual:
+    - "All seven required sections are present with real content"
+    - "Bold and italic formatting used appropriately"
+    - "Horizontal rule separates major sections"
+    - "Content is genuine and personal, not template placeholders"
+    - "Document renders correctly without syntax errors"
+
+  definition_of_done: |
+    Your personal README renders beautifully, uses all required Markdown elements,
+    contains genuine personal content, and could be published on GitHub right now.
+
+support:
+  pitfalls:
+    - issue: "Inconsistent heading levels (jumping from # to ###)"
+      solution: "Use headings in order: #, ##, ###. Don't skip levels."
+    - issue: "Broken table formatting"
+      solution: "Ensure all rows have the same number of columns and pipes align."
+    - issue: "Code block without language specified"
+      solution: "Always add the language after the opening ```. Example: ```python"
+    - issue: "Writing in third person"
+      solution: "This is YOUR readme—write in first person. 'I am...' not 'Jane is...'"
+
+  hints:
+    - level: 1
+      hint: "Start with the example structure from the project description"
+    - level: 2
+      hint: "For the table, list your hardware setup—computer, devices, etc."
+    - level: 3
+      hint: "Your code block could show your favorite shell command or a snippet you're proud of"
+
+extensions:
+  - name: "Shields.io Badges"
+    description: "Add real badges for your skills and tools using shields.io"
+    difficulty: "easy"
+    skills_practiced:
+      - "Badge generation"
+      - "Image links"
+
+  - name: "GitHub Stats"
+    description: "Add GitHub stats cards using github-readme-stats"
+    difficulty: "medium"
+    skills_practiced:
+      - "External embeds"
+      - "GitHub integration"
+
+  - name: "Animated Elements"
+    description: "Add a typing animation or other dynamic elements"
+    difficulty: "hard"
+    skills_practiced:
+      - "Advanced Markdown/HTML"
+      - "External services"
+
+content:
+  template_path: "/content/topics/project-foundations/projects/level-1-personal-readme/"
+
+  resources:
+    - type: "tutorial"
+      title: "Markdown Fundamentals Tutorial"
+      location: "tutorials/markdown-fundamentals.md"
+    - type: "reference"
+      title: "Markdown Syntax Reference"
+      location: "reference/markdown-syntax.md"
+    - type: "reference"
+      title: "GitHub Profile README Examples"
+      location: "reference/profile-readme-examples.md"

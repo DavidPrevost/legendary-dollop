@@ -1,0 +1,166 @@
+id: py-level-1-expense-tracker
+name: Personal Expense Tracker
+subject: python
+level: 1
+level_name: Explorer
+
+description: |
+  Build a command-line expense tracker with categories, dates, and amounts.
+  Data persists in JSON format between sessions.
+
+estimated_time: 90-120 minutes
+
+learning_objectives:
+  - Use dictionaries for structured data
+  - Read/write JSON files
+  - Organize code with functions
+  - Handle user input and validation
+
+prerequisites:
+  concepts:
+    - Dictionaries
+    - JSON handling
+    - Functions
+    - Control flow
+    - Date handling
+  tools:
+    - Python 3.x installed
+
+deliverables:
+  - name: expense_tracker.py
+    description: Main application
+    type: file
+
+  - name: expenses.json
+    description: Data storage file
+    type: file
+
+  - name: README.md
+    description: Usage instructions
+    type: file
+
+requirements:
+  - id: add_expense
+    description: Can add new expenses
+    validation:
+      type: function_exists
+      function: add_expense
+
+  - id: list_expenses
+    description: Can list all or filtered expenses
+    validation:
+      type: function_exists
+      function: list_expenses
+
+  - id: summary
+    description: Shows summary by category
+    validation:
+      type: function_exists
+      function: get_summary
+
+  - id: persistence
+    description: Data persists between runs
+    validation:
+      type: file_exists
+      file: expenses.json
+
+  - id: error_handling
+    description: Handles invalid input gracefully
+    validation:
+      type: manual
+      criteria: No crashes on bad input
+
+starter_code:
+  - name: expense_tracker.py
+    content: |
+      """Personal Expense Tracker
+
+      Track your expenses with categories and dates.
+      """
+
+      import json
+      from datetime import datetime
+
+      DATA_FILE = "expenses.json"
+
+      def load_expenses():
+          """Load expenses from JSON file."""
+          try:
+              with open(DATA_FILE, 'r') as f:
+                  return json.load(f)
+          except FileNotFoundError:
+              return []
+
+      def save_expenses(expenses):
+          """Save expenses to JSON file."""
+          with open(DATA_FILE, 'w') as f:
+              json.dump(expenses, f, indent=2)
+
+      def add_expense(expenses, amount, category, description=""):
+          """Add a new expense."""
+          # Your code here
+          pass
+
+      def list_expenses(expenses, category=None):
+          """List expenses, optionally filtered by category."""
+          # Your code here
+          pass
+
+      def get_summary(expenses):
+          """Get spending summary by category."""
+          # Your code here
+          pass
+
+      def main():
+          """Main menu loop."""
+          expenses = load_expenses()
+
+          while True:
+              print("\n=== Expense Tracker ===")
+              print("1. Add expense")
+              print("2. List expenses")
+              print("3. View summary")
+              print("4. Exit")
+
+              choice = input("\nChoice: ").strip()
+
+              # Handle menu choices
+              # Your code here
+
+              if choice == "4":
+                  save_expenses(expenses)
+                  print("Goodbye!")
+                  break
+
+      if __name__ == "__main__":
+          main()
+
+categories:
+  - Food
+  - Transport
+  - Entertainment
+  - Utilities
+  - Shopping
+  - Health
+  - Other
+
+hints:
+  - level: 1
+    text: Each expense can be a dictionary with keys like 'amount', 'category', 'date'
+
+  - level: 2
+    text: Use datetime.now().isoformat() for timestamps
+
+  - level: 3
+    text: For summary, iterate and accumulate by category key
+
+extensions:
+  - Add monthly budget limits
+  - Generate spending charts
+  - Export to CSV
+  - Add recurring expenses
+
+reflection_questions:
+  - How did you validate user input?
+  - What improvements would make this more useful daily?
+  - How would you handle multiple currencies?

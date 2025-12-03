@@ -1,0 +1,175 @@
+id: cli-level-3-system-dashboard
+name: System Dashboard
+subject: command-line-mastery
+level: 3
+level_name: Builder
+
+description: |
+  Create a command-line dashboard displaying system information using
+  pipes and formatting. Also configure your shell environment.
+
+estimated_time: 90-120 minutes
+
+learning_objectives:
+  - Build complex command pipelines
+  - Format output for readability
+  - Configure shell environment
+  - Create persistent aliases and variables
+
+prerequisites:
+  concepts:
+    - Pipes and redirection
+    - Environment variables
+    - Shell configuration files
+    - Process viewing
+  tools:
+    - Terminal access
+    - System utilities (top, df, etc.)
+
+deliverables:
+  - name: dashboard.sh
+    description: Script that displays system dashboard
+    type: file
+
+  - name: shell_config.txt
+    description: Custom shell configuration additions
+    type: file
+
+requirements:
+  - id: system_info
+    description: Dashboard shows OS, hostname, uptime
+    validation:
+      type: file_contains
+      file: dashboard.sh
+      patterns:
+        - "hostname"
+        - "uptime"
+
+  - id: disk_usage
+    description: Dashboard shows disk usage
+    validation:
+      type: file_contains
+      file: dashboard.sh
+      patterns:
+        - "df"
+
+  - id: process_info
+    description: Dashboard shows top processes
+    validation:
+      type: file_contains
+      file: dashboard.sh
+      patterns:
+        - "ps"
+
+  - id: aliases_created
+    description: At least 5 useful aliases defined
+    validation:
+      type: count_pattern
+      file: shell_config.txt
+      pattern: "alias"
+      min_count: 5
+
+starter_structure:
+  directories:
+    - dashboard/
+  files:
+    - name: dashboard/dashboard.sh
+      content: |
+        #!/bin/bash
+        # System Dashboard
+        # Add your dashboard commands here
+
+        echo "================================"
+        echo "     SYSTEM DASHBOARD"
+        echo "================================"
+        echo ""
+
+        # System Information
+        echo "--- System Info ---"
+        # Add commands here
+
+        # Disk Usage
+        echo ""
+        echo "--- Disk Usage ---"
+        # Add commands here
+
+        # Memory
+        echo ""
+        echo "--- Memory ---"
+        # Add commands here
+
+        # Top Processes
+        echo ""
+        echo "--- Top Processes ---"
+        # Add commands here
+
+    - name: dashboard/shell_config.txt
+      content: |
+        # Custom Shell Configuration
+        # Add these to your .bashrc or .zshrc
+
+        # Aliases
+        # alias name='command'
+
+        # Environment Variables
+        # export VARNAME="value"
+
+        # Custom Prompt (optional)
+        # PS1='prompt string'
+
+dashboard_sections:
+  - section: System Info
+    commands:
+      - hostname
+      - uname -a
+      - uptime
+
+  - section: Disk Usage
+    commands:
+      - df -h (filtered for main disks)
+
+  - section: Memory
+    commands:
+      - free -h (Linux)
+      - vm_stat (macOS)
+
+  - section: Top Processes
+    commands:
+      - ps aux sorted by CPU/memory
+
+  - section: Network
+    commands:
+      - ip addr or ifconfig
+
+suggested_aliases:
+  - ll='ls -alh'
+  - la='ls -A'
+  - ..='cd ..'
+  - ...='cd ../..'
+  - grep='grep --color=auto'
+  - df='df -h'
+  - free='free -h'
+  - ports='netstat -tuln'
+  - myip='curl -s ifconfig.me'
+  - weather='curl wttr.in'
+
+hints:
+  - level: 1
+    text: Use `echo ""` for blank lines between sections
+
+  - level: 2
+    text: Pipe ps output through `sort -k3 -r | head` for top CPU users
+
+  - level: 3
+    text: Use printf for aligned columns instead of echo
+
+extensions:
+  - Add color coding for warnings (high disk usage, etc.)
+  - Include network connection status
+  - Create a mini-dashboard alias for quick checks
+  - Add ASCII art header
+
+reflection_questions:
+  - Which system metrics are most useful for your workflow?
+  - How do pipelines make this dashboard possible?
+  - What aliases will you use most frequently?

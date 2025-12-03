@@ -1,0 +1,138 @@
+id: cli-level-2-log-analyzer
+name: Log Analyzer
+subject: command-line-mastery
+level: 2
+level_name: Tinkerer
+
+description: |
+  Build a toolkit of commands to analyze log files. Extract insights
+  like error counts, top users, and activity patterns.
+
+estimated_time: 60-90 minutes
+
+learning_objectives:
+  - Search files with grep and regex
+  - Sort, filter, and count data
+  - Extract fields with cut and awk
+  - Combine tools for complex analysis
+
+prerequisites:
+  concepts:
+    - grep and regular expressions
+    - sort, uniq, wc
+    - cut, awk basics
+    - Pipes
+  tools:
+    - Terminal access
+    - Sample log file (provided)
+
+deliverables:
+  - name: commands_reference.md
+    description: Documented analysis commands
+    type: file
+
+  - name: analysis_report.txt
+    description: Generated summary report
+    type: file
+
+requirements:
+  - id: error_analysis
+    description: Commands to count and list errors
+    validation:
+      type: file_contains
+      file: commands_reference.md
+      patterns:
+        - "grep"
+        - "ERROR"
+
+  - id: user_analysis
+    description: Commands to find top users
+    validation:
+      type: file_contains
+      file: commands_reference.md
+      patterns:
+        - "sort"
+        - "uniq"
+
+  - id: time_analysis
+    description: Commands to analyze activity by time
+    validation:
+      type: file_contains
+      file: commands_reference.md
+      patterns:
+        - "cut"
+
+  - id: report_generated
+    description: Report contains analysis results
+    validation:
+      type: word_count
+      file: analysis_report.txt
+      min_words: 100
+
+starter_structure:
+  directories:
+    - analysis/
+  files:
+    - name: analysis/sample.log
+      content: |
+        2024-01-15 08:23:45 INFO user=alice action=login ip=192.168.1.100
+        2024-01-15 08:24:12 INFO user=bob action=login ip=192.168.1.101
+        2024-01-15 08:25:33 ERROR user=alice action=upload message="file too large"
+        2024-01-15 08:26:01 INFO user=alice action=download file=report.pdf
+        2024-01-15 09:15:22 INFO user=charlie action=login ip=192.168.1.102
+        2024-01-15 09:18:45 ERROR user=bob action=api_call message="timeout"
+        2024-01-15 09:20:11 INFO user=alice action=logout
+        2024-01-15 10:00:00 INFO user=diana action=login ip=192.168.1.103
+        2024-01-15 10:05:33 ERROR user=diana action=upload message="permission denied"
+        2024-01-15 10:12:45 INFO user=bob action=download file=data.csv
+        2024-01-15 11:30:00 INFO user=alice action=login ip=192.168.1.100
+        2024-01-15 11:45:22 ERROR user=charlie action=api_call message="invalid token"
+        2024-01-15 12:00:00 INFO user=bob action=logout
+        2024-01-15 14:22:33 INFO user=alice action=upload file=image.png
+        2024-01-15 15:00:00 INFO user=diana action=logout
+
+    - name: analysis/commands_reference.md
+      content: |
+        # Log Analysis Commands
+
+        ## Error Analysis
+
+        (Add your commands here)
+
+        ## User Analysis
+
+        (Add your commands here)
+
+        ## Time Analysis
+
+        (Add your commands here)
+
+analysis_tasks:
+  - Count total number of log entries
+  - Count ERROR vs INFO entries
+  - List all unique error messages
+  - Find top 3 most active users
+  - Count actions per user
+  - Find peak activity hour
+  - List all unique IP addresses
+  - Find which user had the most errors
+
+hints:
+  - level: 1
+    text: Use `grep -c` to count matches instead of `grep | wc -l`
+
+  - level: 2
+    text: Extract usernames with `grep -o 'user=[^ ]*' | cut -d= -f2`
+
+  - level: 3
+    text: Get hours with `cut -d' ' -f2 | cut -d: -f1` then sort and count
+
+extensions:
+  - Add analysis for specific date ranges
+  - Create commands for real-time monitoring with tail -f
+  - Build a one-liner that generates the full report
+
+reflection_questions:
+  - Which combination of commands was most powerful?
+  - How would your approach change for a 1GB log file?
+  - What patterns would be useful to add as aliases?

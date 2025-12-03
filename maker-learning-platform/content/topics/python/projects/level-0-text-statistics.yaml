@@ -1,0 +1,167 @@
+id: py-level-0-text-statistics
+name: Text Statistics Tool
+subject: python
+level: 0
+level_name: Curious
+
+description: |
+  Build a text analysis utility that provides statistics like word count,
+  character count, most common words, and average word length.
+
+estimated_time: 60-90 minutes
+
+learning_objectives:
+  - Read and process text files
+  - Use string methods effectively
+  - Work with lists and dictionaries
+  - Format output for readability
+
+prerequisites:
+  concepts:
+    - File reading basics
+    - String methods
+    - Lists and iteration
+    - Dictionary basics
+  tools:
+    - Python 3.x installed
+    - Text editor or IDE
+
+deliverables:
+  - name: text_stats.py
+    description: Main analysis script
+    type: file
+
+  - name: sample.txt
+    description: Sample text file for testing
+    type: file
+
+  - name: output_example.txt
+    description: Example generated report
+    type: file
+
+requirements:
+  - id: word_count
+    description: Counts total words correctly
+    validation:
+      type: function_exists
+      function: count_words
+
+  - id: char_count
+    description: Counts total characters
+    validation:
+      type: function_exists
+      function: count_characters
+
+  - id: common_words
+    description: Finds top N most common words
+    validation:
+      type: function_exists
+      function: get_common_words
+
+  - id: avg_length
+    description: Calculates average word length
+    validation:
+      type: function_exists
+      function: average_word_length
+
+  - id: formatted_output
+    description: Produces readable formatted report
+    validation:
+      type: manual
+      criteria: Output is clear and well-formatted
+
+starter_code:
+  - name: text_stats.py
+    content: |
+      """Text Statistics Tool
+
+      Analyzes text files and provides useful statistics.
+      """
+
+      def read_file(filename):
+          """Read and return contents of a text file."""
+          # Your code here
+          pass
+
+      def count_words(text):
+          """Count total number of words in text."""
+          # Your code here
+          pass
+
+      def count_characters(text, include_spaces=False):
+          """Count characters in text."""
+          # Your code here
+          pass
+
+      def get_common_words(text, n=10):
+          """Return the n most common words and their counts."""
+          # Your code here
+          pass
+
+      def average_word_length(text):
+          """Calculate average length of words."""
+          # Your code here
+          pass
+
+      def count_lines(text):
+          """Count number of lines in text."""
+          # Your code here
+          pass
+
+      def generate_report(filename):
+          """Generate complete statistics report for a file."""
+          # Your code here
+          pass
+
+      if __name__ == "__main__":
+          # Test with sample file
+          report = generate_report("sample.txt")
+          print(report)
+
+  - name: sample.txt
+    content: |
+      The quick brown fox jumps over the lazy dog.
+      Python is a powerful programming language.
+      Learning to code opens many doors.
+      Practice makes perfect when learning Python.
+      The fox was quick and the dog was lazy.
+
+expected_output: |
+  === Text Statistics Report ===
+  File: sample.txt
+
+  Basic Statistics:
+    Lines: 5
+    Words: 41
+    Characters: 199
+    Characters (no spaces): 165
+
+  Word Analysis:
+    Average word length: 4.0 characters
+
+  Top 10 Most Common Words:
+    1. the - 4 times
+    2. was - 2 times
+    3. python - 2 times
+    ...
+
+hints:
+  - level: 1
+    text: Use split() to break text into words
+
+  - level: 2
+    text: A dictionary is perfect for counting word frequencies
+
+  - level: 3
+    text: Use sorted() with a key parameter to sort by count
+
+extensions:
+  - Add sentence count
+  - Detect reading level (Flesch-Kincaid)
+  - Find longest and shortest words
+  - Export report to file
+
+reflection_questions:
+  - Which data structure worked best for counting words?
+  - How did you handle punctuation attached to words?
+  - What would you add to make this more useful?

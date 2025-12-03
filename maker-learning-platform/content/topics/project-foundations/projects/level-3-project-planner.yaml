@@ -1,0 +1,189 @@
+project:
+  id: "project-foundations-project-planner"
+  name: "Project Planner"
+  subject_id: "project-foundations"
+  level: 3
+
+  description:
+    short: "Create a comprehensive project plan without writing any code."
+    full: |
+      Take a project idea and create a complete project plan covering problem definition,
+      goals, user stories, task breakdown, time estimates, milestones, and risk analysis.
+      This is pure planning—no code required. The result is a document that would guide
+      the actual implementation of the project.
+
+  outcome: "A complete project planning document that could guide implementation"
+
+value:
+  life_improvement: |
+    You can now plan any project before diving into code. This prevents wasted effort,
+    scope creep, and the "I don't know where to start" paralysis. Share the plan with
+    collaborators or use it as your personal roadmap.
+
+  learning_goals:
+    - Define clear problems, goals, and scope
+    - Write user stories with acceptance criteria
+    - Break projects into manageable tasks
+    - Make realistic time estimates
+    - Identify and mitigate risks
+    - Plan milestones and releases
+
+  unlocks:
+    - Can plan projects of any size
+    - Ready for team collaboration
+    - Foundation for project management
+
+requirements:
+  primary:
+    subject_id: "project-foundations"
+    min_level: 3
+
+  integrations: []
+
+  recommended:
+    - subject_id: "project-foundations"
+      min_level: 2
+      reason: "Understanding of project structure helps inform planning"
+
+environment:
+  platforms:
+    windows: true
+    macos: true
+    linux: true
+
+  variants:
+    windows: null
+    macos: null
+    linux: null
+
+  software_required:
+    - name: "Text editor"
+      install_notes: "Any editor works"
+
+  hardware_required: []
+
+  hardware_optional: []
+
+estimates:
+  time: "3-5 hours"
+
+  difficulty:
+    overall: "intermediate"
+    concepts: "medium"
+    implementation: "medium"
+    debugging: "minimal"
+
+safety:
+  legal_notes: null
+  security_notes: null
+  warnings: []
+
+structure:
+  files:
+    - path: "PROJECT_PLAN.md"
+      purpose: "Complete project planning document"
+
+  directories: []
+
+  final_structure: |
+    project-name/
+    └── PROJECT_PLAN.md
+
+validation:
+  automated:
+    - check: "file_exists('PROJECT_PLAN.md')"
+      error_message: "Project plan document not found"
+    - check: "has_section('PROJECT_PLAN.md', 'Problem Statement')"
+      error_message: "Missing Problem Statement section"
+    - check: "has_section('PROJECT_PLAN.md', 'Goals')"
+      error_message: "Missing Goals section"
+    - check: "has_section('PROJECT_PLAN.md', 'User Stories')"
+      error_message: "Missing User Stories section"
+    - check: "has_section('PROJECT_PLAN.md', 'Task Breakdown')"
+      error_message: "Missing Task Breakdown section"
+    - check: "has_section('PROJECT_PLAN.md', 'Time Estimates')"
+      error_message: "Missing Time Estimates section"
+    - check: "has_section('PROJECT_PLAN.md', 'Milestones')"
+      error_message: "Missing Milestones section"
+    - check: "has_section('PROJECT_PLAN.md', 'Risks')"
+      error_message: "Missing Risks section"
+    - check: "count_pattern('PROJECT_PLAN.md', 'As a .* I want .* so that') >= 5"
+      error_message: "Need at least 5 user stories in correct format"
+
+  manual:
+    - "Problem statement clearly articulates the problem and who has it"
+    - "Goals include primary, secondary, and non-goals"
+    - "User stories follow format: As a [user], I want [action] so that [benefit]"
+    - "Each user story has testable acceptance criteria"
+    - "User stories are prioritized (Must/Should/Could/Won't)"
+    - "Tasks are granular enough to be actionable (not 'build the app')"
+    - "Dependencies between tasks are identified"
+    - "Time estimates use ranges and include buffer"
+    - "Milestones have specific deliverables"
+    - "Risks are genuine concerns with real mitigations"
+    - "Tech stack decisions include rationale"
+
+  definition_of_done: |
+    A developer could pick up this plan and know exactly what to build, in what order,
+    and approximately how long it will take. The plan anticipates problems and has
+    clear success criteria.
+
+support:
+  pitfalls:
+    - issue: "User stories that are too vague"
+      solution: "'As a user, I want the app to work' is not a user story. Be specific about the action and benefit."
+    - issue: "Tasks that are too large"
+      solution: "If a task takes more than a day, break it down further. 'Build database' → 'Design schema', 'Create tables', etc."
+    - issue: "Wildly optimistic estimates"
+      solution: "Double your first instinct. Add 30% buffer for unknowns. Remember testing and docs."
+    - issue: "Fake risks"
+      solution: "'Might not finish' is not a risk. 'API might have rate limits' or 'Library might not support Windows' are real risks."
+    - issue: "Skipping acceptance criteria"
+      solution: "If you can't define when a story is done, you don't understand it yet."
+
+  hints:
+    - level: 1
+      hint: "Pick one of the suggested project ideas—they're well-scoped for planning practice"
+    - level: 2
+      hint: "For user stories, think about different user types: new user, returning user, admin"
+    - level: 3
+      hint: "Good acceptance criteria are testable: 'User can see...' 'System displays...' 'Data is saved...'"
+
+extensions:
+  - name: "Kanban Board Setup"
+    description: "Set up a real Kanban board (GitHub Projects, Trello) with your tasks"
+    difficulty: "easy"
+    skills_practiced:
+      - "Kanban usage"
+      - "Tool familiarity"
+
+  - name: "Competitive Analysis"
+    description: "Research similar tools/projects and document how yours differs"
+    difficulty: "medium"
+    skills_practiced:
+      - "Research"
+      - "Differentiation"
+
+  - name: "Wireframes"
+    description: "Create basic wireframes/mockups for any UI components"
+    difficulty: "medium"
+    skills_practiced:
+      - "UI design basics"
+      - "Visual planning"
+
+content:
+  template_path: "/content/topics/project-foundations/projects/level-3-project-planner/"
+
+  resources:
+    - type: "tutorial"
+      title: "Project Planning Guide"
+      location: "tutorials/project-planning.md"
+    - type: "tutorial"
+      title: "User Stories Guide"
+      location: "tutorials/user-stories.md"
+    - type: "reference"
+      title: "Estimation Techniques"
+      location: "reference/estimation.md"
+    - type: "reference"
+      title: "MoSCoW Prioritization"
+      location: "reference/moscow.md"

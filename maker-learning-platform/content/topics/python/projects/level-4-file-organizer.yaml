@@ -1,0 +1,274 @@
+id: py-level-4-file-organizer
+name: File Organizer with Tests
+subject: python
+level: 4
+level_name: Maker
+
+description: |
+  Build a tested file organization tool that sorts files by type or date.
+  Include comprehensive tests, type hints, and proper packaging.
+
+estimated_time: 180-240 minutes
+
+learning_objectives:
+  - Write unit tests with pytest
+  - Add type hints throughout
+  - Structure code as a package
+  - Use configuration files
+  - Mock file system for tests
+
+prerequisites:
+  concepts:
+    - Testing with pytest
+    - Type hints
+    - Package structure
+    - Configuration handling
+    - Mocking
+  tools:
+    - Python 3.x installed
+    - pytest
+
+deliverables:
+  - name: file_organizer/
+    description: Package directory
+    type: directory
+
+  - name: file_organizer/__init__.py
+    description: Package init
+    type: file
+
+  - name: file_organizer/organizer.py
+    description: Core organizer logic
+    type: file
+
+  - name: file_organizer/config.py
+    description: Configuration handling
+    type: file
+
+  - name: tests/
+    description: Test directory
+    type: directory
+
+  - name: tests/test_organizer.py
+    description: Test suite
+    type: file
+
+  - name: pyproject.toml
+    description: Project configuration
+    type: file
+
+requirements:
+  - id: organize_function
+    description: Main organize function with type hints
+    validation:
+      type: function_signature
+      function: organize
+      has_type_hints: true
+
+  - id: test_coverage
+    description: Test coverage > 80%
+    validation:
+      type: coverage
+      min_percent: 80
+
+  - id: dry_run
+    description: Supports dry-run mode
+    validation:
+      type: parameter_exists
+      function: organize
+      parameter: dry_run
+
+  - id: configurable
+    description: File type mappings are configurable
+    validation:
+      type: file_exists
+      file: file_organizer/config.py
+
+  - id: edge_cases
+    description: Handles edge cases (permissions, symlinks)
+    validation:
+      type: manual
+      criteria: Tests cover edge cases
+
+starter_code:
+  - name: file_organizer/__init__.py
+    content: |
+      """File Organizer package."""
+
+      from .organizer import organize, FileOrganizer
+      from .config import Config
+
+      __version__ = "0.1.0"
+
+  - name: file_organizer/organizer.py
+    content: |
+      """File organization logic."""
+
+      from pathlib import Path
+      from typing import Optional
+      import shutil
+      import logging
+
+      from .config import Config
+
+      logger = logging.getLogger(__name__)
+
+      class FileOrganizer:
+          """Organizes files in a directory by type."""
+
+          def __init__(self, config: Optional[Config] = None):
+              """Initialize organizer with config."""
+              self.config = config or Config()
+
+          def organize(
+              self,
+              source: Path,
+              destination: Optional[Path] = None,
+              dry_run: bool = False
+          ) -> dict[str, int]:
+              """
+              Organize files from source directory.
+
+              Args:
+                  source: Directory to organize
+                  destination: Where to put organized files
+                  dry_run: If True, only show what would happen
+
+              Returns:
+                  Dictionary of category -> file count
+              """
+              # Your code here
+              pass
+
+          def _get_category(self, file: Path) -> str:
+              """Determine category for a file based on extension."""
+              # Your code here
+              pass
+
+          def _move_file(
+              self,
+              file: Path,
+              destination: Path,
+              dry_run: bool
+          ) -> bool:
+              """Move file to destination."""
+              # Your code here
+              pass
+
+      def organize(
+          source: str | Path,
+          destination: Optional[str | Path] = None,
+          dry_run: bool = False,
+          config: Optional[Config] = None
+      ) -> dict[str, int]:
+          """Convenience function to organize files."""
+          organizer = FileOrganizer(config)
+          return organizer.organize(
+              Path(source),
+              Path(destination) if destination else None,
+              dry_run
+          )
+
+  - name: file_organizer/config.py
+    content: |
+      """Configuration for file organizer."""
+
+      from pathlib import Path
+      from typing import Optional
+      import json
+
+      DEFAULT_MAPPINGS = {
+          "Images": [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".svg"],
+          "Documents": [".pdf", ".doc", ".docx", ".txt", ".rtf", ".odt"],
+          "Spreadsheets": [".xls", ".xlsx", ".csv", ".ods"],
+          "Audio": [".mp3", ".wav", ".flac", ".aac", ".ogg"],
+          "Video": [".mp4", ".avi", ".mkv", ".mov", ".wmv"],
+          "Archives": [".zip", ".tar", ".gz", ".rar", ".7z"],
+          "Code": [".py", ".js", ".html", ".css", ".java", ".cpp"],
+      }
+
+      class Config:
+          """Configuration for file organizer."""
+
+          def __init__(self, config_path: Optional[Path] = None):
+              """Initialize configuration."""
+              self.mappings = DEFAULT_MAPPINGS.copy()
+              if config_path:
+                  self.load(config_path)
+
+          def load(self, path: Path) -> None:
+              """Load configuration from JSON file."""
+              # Your code here
+              pass
+
+          def get_category(self, extension: str) -> str:
+              """Get category for file extension."""
+              # Your code here
+              pass
+
+  - name: tests/test_organizer.py
+    content: |
+      """Tests for file organizer."""
+
+      import pytest
+      from pathlib import Path
+      from unittest.mock import patch, MagicMock
+
+      from file_organizer import organize, FileOrganizer, Config
+
+      class TestConfig:
+          """Tests for Config class."""
+
+          def test_default_mappings(self):
+              """Config should have default mappings."""
+              config = Config()
+              assert "Images" in config.mappings
+
+          def test_get_category_known(self):
+              """Should return correct category for known extension."""
+              config = Config()
+              assert config.get_category(".jpg") == "Images"
+
+          def test_get_category_unknown(self):
+              """Should return 'Other' for unknown extension."""
+              config = Config()
+              assert config.get_category(".xyz") == "Other"
+
+      class TestFileOrganizer:
+          """Tests for FileOrganizer class."""
+
+          def test_dry_run_no_changes(self, tmp_path):
+              """Dry run should not move files."""
+              # Create test file
+              test_file = tmp_path / "test.jpg"
+              test_file.touch()
+
+              # Run organizer in dry run mode
+              organizer = FileOrganizer()
+              result = organizer.organize(tmp_path, dry_run=True)
+
+              # File should still be in original location
+              assert test_file.exists()
+
+          # Add more tests here
+
+hints:
+  - level: 1
+    text: Use pytest fixtures for creating temporary directories
+
+  - level: 2
+    text: Use unittest.mock.patch to mock shutil.move for testing
+
+  - level: 3
+    text: Test edge cases like empty directories, permission errors
+
+extensions:
+  - Add watch mode (monitor directory for new files)
+  - Implement undo functionality
+  - Add file deduplication
+  - Create GUI interface
+
+reflection_questions:
+  - How did mocking help you test file operations?
+  - What edge cases were hardest to handle?
+  - How would you improve test coverage further?

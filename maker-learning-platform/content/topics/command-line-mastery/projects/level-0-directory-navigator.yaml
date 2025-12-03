@@ -1,0 +1,117 @@
+id: cli-level-0-directory-navigator
+name: Directory Navigator
+subject: command-line-mastery
+level: 0
+level_name: Curious
+
+description: |
+  Create a personal workspace organization system with well-structured
+  directories and a navigation reference card.
+
+estimated_time: 30-45 minutes
+
+learning_objectives:
+  - Create logical directory hierarchies
+  - Navigate efficiently using paths
+  - Use navigation shortcuts
+  - Document workspace structure
+
+prerequisites:
+  concepts:
+    - Terminal basics
+    - Navigation commands
+    - Path types
+  tools:
+    - Terminal access
+
+deliverables:
+  - name: workspace_directory
+    description: Main workspace with subdirectories
+    type: directory
+
+  - name: navigation_reference.txt
+    description: Quick reference for important paths
+    type: file
+
+  - name: directory_listing.txt
+    description: Tree view of workspace structure
+    type: file
+
+requirements:
+  - id: workspace_structure
+    description: Workspace has at least 5 top-level directories
+    validation:
+      type: directory_count
+      path: workspace
+      min_count: 5
+
+  - id: logical_naming
+    description: Directories follow clear naming conventions
+    validation:
+      type: manual
+      criteria: Names are lowercase, no spaces, descriptive
+
+  - id: reference_card
+    description: Navigation reference includes key paths
+    validation:
+      type: file_contains
+      file: navigation_reference.txt
+      patterns:
+        - "home"
+        - "workspace"
+
+  - id: tree_listing
+    description: Directory listing shows full structure
+    validation:
+      type: file_exists
+      file: directory_listing.txt
+
+starter_structure:
+  directories:
+    - workspace/
+  files:
+    - name: workspace/README.md
+      content: |
+        # My Maker Workspace
+
+        This is my organized workspace for maker projects.
+
+        ## Directory Structure
+
+        (Document your directories here)
+
+suggested_structure:
+  - workspace/
+    - projects/
+      - active/
+      - archive/
+    - learning/
+      - tutorials/
+      - notes/
+    - tools/
+      - scripts/
+      - configs/
+    - resources/
+      - downloads/
+      - references/
+    - temp/
+
+hints:
+  - level: 1
+    text: Start by thinking about categories of things you'll work on
+
+  - level: 2
+    text: Use `mkdir -p` to create nested directories in one command
+
+  - level: 3
+    text: Your reference card should include absolute paths you'll use often
+
+extensions:
+  - Create aliases for quick navigation to common directories
+  - Add a script that prints your workspace tree
+  - Set up a bookmark system using symbolic links
+
+reflection_questions:
+  - How did you decide on your directory categories?
+  - What shortcuts will save you the most time?
+  - How might your structure evolve as you take on more projects?
